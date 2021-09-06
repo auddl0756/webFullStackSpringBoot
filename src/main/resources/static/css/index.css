@@ -1,0 +1,92 @@
+body .top {
+    height: 60px;
+    border: 8px solid aquamarine;
+}
+
+body .top ul li a {
+    display: inline-block;
+    line-height: 30px;
+}
+
+body .top ul li a:hover {
+    color: blue;
+}
+
+body .top ul li {
+    float: right;
+    margin-right: 2%;
+    background-color: aquamarine;
+    width: 80px;
+    height: 30px;
+    text-align: center;
+    box-sizing: border-box;
+    box-shadow: 3px 3px 3px 3px;
+}
+
+body .center {
+    border: 8px solid aquamarine;
+    text-align: center;
+}
+
+body .center ul {
+    width: 250px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+body .center ul li {
+    width: 80px;
+    height: 80px;
+    text-align: center;
+    box-sizing: border-box;
+    box-shadow: 3px 3px 3px 3px;
+    background-color: aquamarine;
+    margin: 10px;
+}
+
+/* li 안의 a태그의 글자가 세로로 가운데 정렬되도록 하기 위함*/
+body .center ul li a {
+    display: inline-block;
+    line-height: 70px;
+}
+
+body .center ul li a:hover {
+    display: inline-block;
+    line-height: 70px;
+    color: blue;
+}
+
+/* 자기소개, 내사진 블록이 가로로 정렬되도록 하기 위함*/
+body .center ul .myIntro {
+    float: left;
+    margin-bottom: 15%;
+}
+
+body .center ul .myPicture {
+    float: left;
+    margin-bottom: 15%;
+}
+
+/* 지도 이미지가 float의 영향을 안 받기 위함*/
+body .center img {
+    clear: both;
+    display: block;
+    margin: auto;
+    margin-bottom: 10px;
+}
+
+footer {
+    border: 8px solid aquamarine;
+    clear: both;
+    text-align: center;
+    border-bottom: 30px solid aquamarine;
+    padding-bottom: 10px;
+}
+
+li {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+}

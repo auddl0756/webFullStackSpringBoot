@@ -1,0 +1,57 @@
+body .top {
+    height: 60px;
+    border: 8px solid aquamarine;
+}
+
+body .top ul li {
+    float: right;
+    margin-right: 2%;
+    background-color: aquamarine;
+    width: 80px;
+    height: 30px;
+    text-align: center;
+    box-sizing: border-box;
+    box-shadow: 3px 3px 3px 3px;
+    list-style: none;
+}
+
+body .top ul li a {
+    display: inline-block;
+    line-height: 30px;
+}
+
+body .top ul li a:hover {
+    color: blue;
+}
+
+body .center {
+    border: 8px solid aquamarine;
+    padding-left: 10%;
+    overflow: auto;
+    height: auto;
+}
+
+body .center p {
+    font-size: 12px;
+    margin-bottom: 4%;
+}
+
+body .center h2 {
+    margin-top: 2%;
+}
+
+body .center p:last-child {
+    margin-bottom: 2%;
+}
+
+footer {
+    border: 8px solid aquamarine;
+    clear: both;
+    text-align: center;
+    border-bottom: 30px solid aquamarine;
+    padding-bottom:10px;
+}
+
+a {
+    text-decoration: none;
+}

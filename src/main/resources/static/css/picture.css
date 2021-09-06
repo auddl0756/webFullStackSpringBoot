@@ -1,0 +1,68 @@
+body .top {
+    height: 60px;
+    border: 8px solid aquamarine;
+}
+
+body .top ul li {
+    float: right;
+    margin-right: 2%;
+    background-color: aquamarine;
+    width: 80px;
+    height: 30px;
+    text-align: center;
+    box-sizing: border-box;
+    box-shadow: 3px 3px 3px 3px;
+}
+
+body .top ul li a {
+    display: inline-block;
+    line-height: 30px;
+}
+
+body .top ul li a:hover {
+    color: blue;
+}
+
+body .center {
+    border: 8px solid aquamarine;
+    overflow: auto;
+    height: auto;
+}
+
+/* 지도 이미지가 float의 영향을 안 받기 위함*/
+body .center img {
+    width: 300px;
+    height: 300px;
+    border: 10px solid gray;
+    float: left;
+    margin-left: 15%;
+    margin-right: 5%;
+    margin-bottom: 5%;
+}
+
+body .center p {
+    clear: both;
+    display: block;
+    margin-right: 5%;
+}
+
+body .center hr {
+    clear: both;
+    display: block;
+}
+
+footer {
+    border: 8px solid aquamarine;
+    clear: both;
+    text-align: center;
+    border-bottom: 30px solid aquamarine;
+    padding-bottom:10px;
+}
+
+li {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+}

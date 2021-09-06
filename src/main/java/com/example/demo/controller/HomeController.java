@@ -9,4 +9,13 @@ public class HomeController {
     public String index(){
         return "index";
     }
+
+    @GetMapping("/introduce")
+    public String introduce(){
+        return "introduce";
+    }
+
+    @GetMapping("/picture")
+    public void picture(){
+    }
 }
