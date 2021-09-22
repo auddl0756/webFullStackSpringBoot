@@ -2,10 +2,7 @@ package com.example.demo.entity;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @ToString
 @AllArgsConstructor
@@ -15,6 +12,11 @@ import javax.persistence.Id;
 @Entity
 public class Promotion {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "id")
+    private int promotionId;
+
+    @ManyToOne
+    @JoinColumn(name="product_id")
+    private Product product;
 
 }

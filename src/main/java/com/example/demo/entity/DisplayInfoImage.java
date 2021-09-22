@@ -1,7 +1,6 @@
 package com.example.demo.entity;
 
 import lombok.*;
-import org.hibernate.metamodel.model.domain.IdentifiableDomainType;
 
 import javax.persistence.*;
 

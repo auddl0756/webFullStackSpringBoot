@@ -16,13 +16,11 @@ public class ProductImage {
 
     private String type;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="product_id")
     Product product;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="file_info_id")
     private FileInfo fileInfo;
-
-
 }
