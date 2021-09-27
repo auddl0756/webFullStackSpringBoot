@@ -1,7 +1,6 @@
 package com.example.demo.repository;
 
-
-import com.example.demo.entity.DisplayInfo;
+import com.example.demo.dto.PromotionImageDTO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,19 +9,19 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 
-@RunWith(SpringRunner.class)
 @SpringBootTest
-public class DisplayInfoRepositoryTest {
+@RunWith(SpringRunner.class)
+public class PromotionRepositoryTest {
     @Autowired
-    private DisplayInfoRepository displayInfoRepository;
+    private PromotionRepository promotionRepository;
 
     @Test
     public void 프로모션영역_이미지구하기() {
-        List<Object[]> result = displayInfoRepository.getPromotionImages();
+        List<PromotionImageDTO> result = promotionRepository.getPromotionImages();
         result.forEach(info -> {
-            int productImageId = (Integer) info[0];
-            int productId = (Integer) info[1];
-            String saveFileName = (String) info[2];
+            int productImageId = info.getProductImageId();
+            int productId = info.getProductId();
+            String saveFileName = info.getSaveFileName();
 
             System.out.println(productImageId + " " + productId + " " + saveFileName);
         });
