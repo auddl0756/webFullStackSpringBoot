@@ -1,14 +1,15 @@
 $(document).ready(initMainPage());
 
 async function initMainPage(){
-    let promotionData = await getInitData();
+    let promotionData = await getPromotionData();
     console.log(promotionData);
 
-   let promotion = await new Promotion(promotionData);
+   const promotion = await new Promotion(promotionData);
+   const category = await new Category();
 
 }
 
-function getInitData(){
+function getPromotionData(){
     return new Promise(function(resolve, reject){
         $.ajax({
             url:"/api/promotions",
@@ -17,10 +18,25 @@ function getInitData(){
                 resolve(response);
             },
             error:function(){
-                alert("data load failed.");
+                alert("promotion data load failed.");
             }
         });
     });
+}
+
+function getProductData(){
+    return new Promise(function(resolve, reject){
+        $.ajax({
+            url:"/api/products",
+            type:"get",
+            success:function(response){
+                resolve(response);
+            },
+            error:function(){
+                alert("product data load failed.");
+            }
+        })
+    })
 }
 
 class Promotion {
@@ -88,5 +104,24 @@ class Promotion {
                 this.promotionArea.css("left",-this.width+"px");
             },10);
         }
+    }
+}
+
+class Category{
+    constructor() {
+        this.addEventListeners();
+    }
+
+    addEventListeners(){
+        //jquery에서 이벤트 등록은 "on"으로 한다.
+        $('#categoryTab').on("click",this.activateTab);
+    }
+
+    activateTab(target){
+        let html = target.target;
+        let liTag = html.closest("li");
+
+        $('#categoryTab').children("li").children("a").removeClass("active");
+        $(liTag).children(".anchor").addClass("active");
     }
 }
