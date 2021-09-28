@@ -12,7 +12,8 @@ import java.util.List;
 public interface PromotionRepository extends JpaRepository<Promotion,Integer> {
     @Query("SELECT pi.id AS productImageId," +
             "pi.product.id AS productId," +
-            "pi.fileInfo.saveFileName AS saveFileName " +
+            "pi.fileInfo.saveFileName AS saveFileName," +
+            "pi.product.description AS description " +
             "FROM ProductImage pi " +
             "JOIN Promotion pr ON pr.product = pi.product " +
             "WHERE pi.type='th' ")
