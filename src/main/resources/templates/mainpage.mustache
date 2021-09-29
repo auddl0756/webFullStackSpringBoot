@@ -55,37 +55,11 @@
         </div>
         <div class="section_event_tab">
             <ul class="event_tab_lst tab_lst_min" id="categoryTab">
-                <li class="item" data-category="0">
-                    <a class="anchor active"> <span>전체리스트</span> </a>
-                </li>
-                <li class="item" data-category="1">
-                    <a class="anchor"> <span>전시</span> </a>
-                </li>
-                <li class="item" data-category="2">
-                    <a class="anchor"> <span>뮤지컬</span> </a>
-                </li>
-                <li class="item" data-category="3">
-                    <a class="anchor"> <span>콘서트</span> </a>
-                </li>
-                <li class="item" data-category="4">
-                    <a class="anchor"> <span>클래식</span> </a>
-                </li>
-                <li class="item" data-category="5">
-                    <a class="anchor"> <span>연극</span> </a>
-                </li>
-                <!-- li class="item" data-category="7">
-                    <a class="anchor"> <span>클래스</span> </a>
-                </li>
-                <li class="item" data-category="8">
-                    <a class="anchor"> <span>체험</span> </a>
-                </li>
-                <li class="item" data-category="9">
-                    <a class="anchor last"> <span>키즈</span> </a>
-                </li -->
+                <!-- categoryTemplate으로 서버에서 데이터를 받아 그려 줌-->
             </ul>
         </div>
         <div class="section_event_lst">
-            <p class="event_lst_txt">바로 예매 가능한 행사가 <span class="pink">10개</span> 있습니다</p>
+            <p class="event_lst_txt">바로 예매 가능한 행사가 <span class="pink"></span> 있습니다</p>
             <div class="wrap_event_box">
                 <!-- [D] lst_event_box 가 2컬럼으로 좌우로 나뉨, 더보기를 클릭할때마다 좌우 ul에 li가 추가됨 -->
                 <ul class="lst_event_box">
@@ -217,6 +191,14 @@
                 <h4 class="event_txt_tit"><span>${description}</span> <small class="sm">${placeName}</small></h4>
                 <p class="event_txt_dsc">${content}</p>
             </div>
+        </a>
+    </li>
+</script>
+
+<script type="rv-template" id="categoryTabTemplate">
+    <li class="item" data-category={{id}}>
+        <a class="anchor">
+            <span>{{name}}</span>
         </a>
     </li>
 </script>
