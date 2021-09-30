@@ -1,6 +1,8 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.CategoryTabDTO;
 import com.example.demo.dto.ProductItemDTO;
+import com.example.demo.service.CategoryService;
 import com.example.demo.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +16,9 @@ public class MainpageController {
     @Autowired
     private ProductService productService;
 
+    @Autowired
+    private CategoryService categoryService;
+
     private static final int ALL = 0;
 
     @GetMapping("/api/products/{categoryId}/{start}")
@@ -23,5 +28,10 @@ public class MainpageController {
         } else {
             return productService.getProductsByCategory(categoryId,start);
         }
+    }
+
+    @GetMapping("/api/categories")
+    public List<CategoryTabDTO> getCategories(){
+        return categoryService.getCategories();
     }
 }

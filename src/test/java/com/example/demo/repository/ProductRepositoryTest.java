@@ -1,11 +1,15 @@
 package com.example.demo.repository;
 
-
+import com.example.demo.dto.ProductItemDTO;
 import com.example.demo.entity.Product;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -23,4 +27,12 @@ public class ProductRepositoryTest {
         assertThat(productRepository).isNotNull();
     }
 
+    @Test
+    public void getProductsByCategoryWithPaging() {
+        Pageable pageable = PageRequest.of(1, 4, Sort.Direction.DESC,"displayInfoId");
+        List<ProductItemDTO> result
+                = productRepository.getProductItemsUsingCategoryWithPaging(1, pageable);
+
+        result.forEach(System.out::println);
+    }
 }

@@ -7,4 +7,5 @@ public interface ProductItemDTO {
     String getDescription();
     Integer getProductId();
     String getProductImageUrl();
+
 }
