@@ -88,8 +88,9 @@ class Category {
     constructor() {
         this.addEventListeners();
         this.categoryId = 0;
-        this.maxDisplayInfoId = [];
-        for (let i = 0; i < 100; i++) this.maxDisplayInfoId[i] = 100_000;
+        this.pageNumber = [];
+        this.CATEGORY_COUNT = 100;
+        for (let i = 0; i < this.CATEGORY_COUNT; i++) this.pageNumber[i] = 0;
         this.categoryTemplate = $('#categoryTabTemplate').html();
     }
 
@@ -112,20 +113,22 @@ class Category {
         let liTag = html.closest("li");
 
         this.categoryId = liTag.dataset.category;
-        let productData = await this.requestProductData(this.categoryId, this.maxDisplayInfoId[this.categoryId]);
+        let productData = await this.requestProductData(this.categoryId, this.pageNumber[this.categoryId]);
 
-        for (let prodData of productData) {
-            this.maxDisplayInfoId = Math.min(this.maxDisplayInfoId, prodData.displayInfoId);
-        }
+        this.pageNumber[this.categoryId]++;
 
-        console.log(this.maxDisplayInfoId);
+        // for (let prodData of productData) {
+        //     this.pageNumber = Math.min(this.pageNumber, prodData.displayInfoId);
+        // }
+
+        console.log(this.pageNumber[this.categoryId]);
         console.log(productData);
     }
 
-    requestProductData(categoryId, maxDisplayInfoId) {
+    requestProductData(categoryId, pageNum) {
         return new Promise(function (resolve, reject) {
             $.ajax({
-                url: "/api/products/" + categoryId + "/" + maxDisplayInfoId,
+                url: "/api/products/" + categoryId + "/" + pageNum,
                 type: "get",
                 success: function (response) {
                     resolve(response);

@@ -12,6 +12,7 @@
 
 ## 참고 자료
 ### 백엔드
+- [Optional[pageRequest] not found in annotated query 오류](https://stackoverflow.com/questions/54620809/how-to-get-pagerequest-to-work-in-spring-boot-with-annotated-query)
 
 ### 프론트엔드
 - [mustache docs](https://mustache.github.io/mustache.5.html)

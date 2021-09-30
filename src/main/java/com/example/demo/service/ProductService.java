@@ -20,13 +20,13 @@ public class ProductService {
 
     private static final int PAGING_SIZE = 4;
 
-    public List<ProductItemDTO> getProductsByCategory(int categoryId, int start) {
-        Pageable pageable = PageRequest.of(start, PAGING_SIZE, Sort.Direction.DESC, "displayInfoId");
+    public List<ProductItemDTO> getProductsByCategory(int categoryId, int pageNum) {
+        Pageable pageable = PageRequest.of(pageNum, PAGING_SIZE, Sort.Direction.DESC, "displayInfoId");
         return productRepository.getProductItemsUsingCategoryWithPaging(categoryId, pageable);
     }
 
-    public List<ProductItemDTO> getAllProducts(int start) {
-        Pageable pageable = PageRequest.of(start, PAGING_SIZE, Sort.Direction.DESC, "displayInfoId");
+    public List<ProductItemDTO> getAllProducts(int pageNum) {
+        Pageable pageable = PageRequest.of(pageNum, PAGING_SIZE, Sort.Direction.DESC, "displayInfoId");
         return productRepository.getAllProductItemWithPaging(pageable);
     }
 }

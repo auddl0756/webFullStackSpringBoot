@@ -21,12 +21,12 @@ public class MainpageController {
 
     private static final int ALL = 0;
 
-    @GetMapping("/api/products/{categoryId}/{start}")
-    public List<ProductItemDTO> getProducts(@PathVariable int categoryId, @PathVariable int start) {
+    @GetMapping("/api/products/{categoryId}/{pageNum}")
+    public List<ProductItemDTO> getProducts(@PathVariable int categoryId, @PathVariable int pageNum) {
         if (categoryId == ALL) {
-            return productService.getAllProducts(start);
+            return productService.getAllProducts(pageNum);
         } else {
-            return productService.getProductsByCategory(categoryId,start);
+            return productService.getProductsByCategory(categoryId,pageNum);
         }
     }
 
