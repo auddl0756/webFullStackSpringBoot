@@ -21,7 +21,7 @@ class Promotion {
         this.promotionArea = $(".visual_img");
         this.template = $("#promotionItem").html();
 
-        this.dataCount =0;
+        this.dataCount = 0;
         this.totalDataCount = 0;
 
         this.promotionArea.css("left", "0px")
@@ -75,7 +75,7 @@ class Promotion {
 
         this.dataCount++;
 
-        if (this.dataCount === this.totalDataCount+1) {
+        if (this.dataCount === this.totalDataCount + 1) {
             this.dataCount = 1;
 
             this.promotionArea.css({
@@ -98,9 +98,11 @@ class Category {
     constructor() {
         this.addEventListeners();
         this.categoryId = 0;
+
         this.pageNumber = [];
         this.CATEGORY_COUNT = 100;
-        for (let i = 0; i < this.CATEGORY_COUNT; i++) this.pageNumber[i] = 0;
+        for (let idx = 0; idx < this.CATEGORY_COUNT; idx++) this.pageNumber[idx] = 0;
+
         this.categoryTemplate = $('#categoryTabTemplate').html();
         this.categoryItemTemplate = $('#itemList').html();
     }
@@ -149,6 +151,9 @@ class Category {
     }
 
     async requestInitialProductDataWrapper(target) {
+        //카테고리 탭이 바뀌면 이전 탭에 그려졌던 것들은 지워져야 한다.
+        this.pageNumber[this.categoryId] = 0;
+
         let html = target.target;
         let liTag = html.closest("li");
         this.categoryId = liTag.dataset.category;
@@ -164,10 +169,10 @@ class Category {
     async requestProductDataWrapper() {
         let productData = await this.requestProductData(this.categoryId, this.pageNumber[this.categoryId]);
 
-        if(productData.length===0){
-            $('.more').css("display","none");
-        }else{
-            $('.more').css("display","block");
+        if (productData.length === 0) {
+            $('.more').css("display", "none");
+        } else {
+            $('.more').css("display", "block");
         }
 
         this.pageNumber[this.categoryId]++;
@@ -223,8 +228,6 @@ class Category {
         if (productData.length === 0) return;
 
         let bindTemplate = Handlebars.compile(this.categoryItemTemplate);
-
-        //let resultHTML = $('.wrap_event_box').html();
 
         let leftHTML = $('#leftItemList').html();
         let rightHTML = $('#rightItemList').html();
