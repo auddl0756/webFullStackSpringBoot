@@ -21,6 +21,9 @@ class Promotion {
         this.promotionArea = $(".visual_img");
         this.template = $("#promotionItem").html();
 
+        this.dataCount =0;
+        this.totalDataCount = 0;
+
         this.promotionArea.css("left", "0px")
         this.promotionArea.css({
             transition: "0.5s ease-in"
@@ -47,8 +50,6 @@ class Promotion {
     }
 
     drawPromotionImages(promotionData) {
-        console.log(promotionData);
-
         let bindTemplate = Handlebars.compile(this.template);
         let resultHTML = "";
         for (const info of promotionData) {
@@ -57,6 +58,8 @@ class Promotion {
 
         //무한 슬라이딩에서 순환 큐 논리
         resultHTML += bindTemplate(promotionData[0]);
+
+        this.totalDataCount = promotionData.length;
 
         this.promotionArea.html(resultHTML);
     }
@@ -70,7 +73,11 @@ class Promotion {
 
         this.promotionArea.css("left", nxtLeft + "px");
 
-        if (parseInt(left) <= -this.dataCount * this.width) {
+        this.dataCount++;
+
+        if (this.dataCount === this.totalDataCount+1) {
+            this.dataCount = 1;
+
             this.promotionArea.css({
                 transition: "none"
             });
@@ -101,7 +108,8 @@ class Category {
     addEventListeners() {
         //jquery에서 이벤트 등록은 "on"으로 한다.
         $('#categoryTab').on("click", this.activateTab.bind(this));
-        $('#categoryTab').on("click", this.requestProductDataWrapper.bind(this));
+        $('#categoryTab').on("click", this.requestInitialProductDataWrapper.bind(this));
+        $('.more').on("click", this.requestProductDataWrapper.bind(this));
     }
 
     activateTab(target) {
@@ -110,38 +118,6 @@ class Category {
 
         $('#categoryTab').children("li").children("a").removeClass("active");
         $(liTag).children(".anchor").addClass("active");
-    }
-
-    async requestProductDataWrapper(target) {
-        let html = target.target;
-        let liTag = html.closest("li");
-
-        this.categoryId = liTag.dataset.category;
-        let productData = await this.requestProductData(this.categoryId, this.pageNumber[this.categoryId]);
-
-        this.pageNumber[this.categoryId]++;
-
-        // for (let prodData of productData) {
-        //     this.pageNumber = Math.min(this.pageNumber, prodData.displayInfoId);
-        // }
-
-        console.log(this.pageNumber[this.categoryId]);
-        console.log(productData);
-    }
-
-    requestProductData(categoryId, pageNum) {
-        return new Promise(function (resolve, reject) {
-            $.ajax({
-                url: "/api/products/" + categoryId + "/" + pageNum,
-                type: "get",
-                success: function (response) {
-                    resolve(response);
-                },
-                error: function () {
-                    alert("product data load failed.");
-                }
-            });
-        });
     }
 
     requestCategoryData() {
@@ -167,11 +143,80 @@ class Category {
             resultHTML += bindTemplate(info);
         }
 
-        console.log(categoryData, this.categoryId);
-
         $('#categoryTab').html(resultHTML);
         $('#categoryTab').children("li:first").children("a").addClass("active");
         $('.pink').html(categoryData[this.categoryId].count + "개");
+    }
+
+    async requestInitialProductDataWrapper(target) {
+        let html = target.target;
+        let liTag = html.closest("li");
+        this.categoryId = liTag.dataset.category;
+
+        if (this.pageNumber[this.categoryId] === 0) {
+            let productData = await this.requestProductData(this.categoryId, this.pageNumber[this.categoryId]);
+            this.pageNumber[this.categoryId]++;
+
+            this.drawInitialCategoryProducts(productData);
+        }
+    }
+
+    async requestProductDataWrapper() {
+        let productData = await this.requestProductData(this.categoryId, this.pageNumber[this.categoryId]);
+
+        if(productData.length===0){
+            $('.more').css("display","none");
+        }else{
+            $('.more').css("display","block");
+        }
+
+        this.pageNumber[this.categoryId]++;
+
+        this.drawCategoryProducts(productData);
+    }
+
+    requestProductData(categoryId, pageNum) {
+        return new Promise(function (resolve, reject) {
+            $.ajax({
+                url: "/api/products/" + categoryId + "/" + pageNum,
+                type: "get",
+                success: function (response) {
+                    resolve(response);
+                },
+                error: function () {
+                    alert("product data load failed.");
+                }
+            });
+        });
+    }
+
+    drawInitialCategoryProducts(productData) {
+        if (productData.length === 0) return;
+
+        let bindTemplate = Handlebars.compile(this.categoryItemTemplate);
+
+        let leftHTML = "";
+        let rightHTML = "";
+
+        let leftCount = $('#leftItemList').children().length;
+        let rightCount = $('#rightItemList').children().length;
+
+        if (leftCount <= rightCount) {
+            leftHTML += bindTemplate(productData[0]);
+        }
+
+        for (let i = 1; i < productData.length; i++) {
+            let hereData = productData[i];
+
+            if (i % 2 === 1) { //right
+                rightHTML += bindTemplate(hereData);
+            } else {  //left
+                leftHTML += bindTemplate(hereData);
+            }
+        }
+
+        $('#leftItemList').html(leftHTML);
+        $('#rightItemList').html(rightHTML);
     }
 
     drawCategoryProducts(productData) {
@@ -190,7 +235,6 @@ class Category {
         if (leftCount <= rightCount) {
             leftHTML += bindTemplate(productData[0]);
         }
-        console.log(productData[0]);
 
         for (let i = 1; i < productData.length; i++) {
             let hereData = productData[i];
@@ -205,4 +249,5 @@ class Category {
         $('#leftItemList').html(leftHTML);
         $('#rightItemList').html(rightHTML);
     }
+
 }
