@@ -10,6 +10,9 @@ async function initMainPage() {
     const category = new Category();
     let categoryData = await category.requestCategoryData();
     category.drawCategoryTab(categoryData);
+
+    let initialProductData = await category.requestProductData(0, 0);
+    category.drawCategoryProducts(initialProductData);
 }
 
 class Promotion {
@@ -92,6 +95,7 @@ class Category {
         this.CATEGORY_COUNT = 100;
         for (let i = 0; i < this.CATEGORY_COUNT; i++) this.pageNumber[i] = 0;
         this.categoryTemplate = $('#categoryTabTemplate').html();
+        this.categoryItemTemplate = $('#itemList').html();
     }
 
     addEventListeners() {
@@ -168,5 +172,37 @@ class Category {
         $('#categoryTab').html(resultHTML);
         $('#categoryTab').children("li:first").children("a").addClass("active");
         $('.pink').html(categoryData[this.categoryId].count + "개");
+    }
+
+    drawCategoryProducts(productData) {
+        if (productData.length === 0) return;
+
+        let bindTemplate = Handlebars.compile(this.categoryItemTemplate);
+
+        //let resultHTML = $('.wrap_event_box').html();
+
+        let leftHTML = $('#leftItemList').html();
+        let rightHTML = $('#rightItemList').html();
+
+        let leftCount = $('#leftItemList').children().length;
+        let rightCount = $('#rightItemList').children().length;
+
+        if (leftCount <= rightCount) {
+            leftHTML += bindTemplate(productData[0]);
+        }
+        console.log(productData[0]);
+
+        for (let i = 1; i < productData.length; i++) {
+            let hereData = productData[i];
+
+            if (i % 2 === 1) { //right
+                rightHTML += bindTemplate(hereData);
+            } else {  //left
+                leftHTML += bindTemplate(hereData);
+            }
+        }
+
+        $('#leftItemList').html(leftHTML);
+        $('#rightItemList').html(rightHTML);
     }
 }
