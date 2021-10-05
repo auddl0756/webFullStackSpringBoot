@@ -21,7 +21,7 @@ public interface DetailRepository extends JpaRepository<ProductImage, Integer> {
                     "   pi.type='th' " +
                     "   OR pi.type = 'et' " +
                     ")" +
-                    "AND di.id = :displayInfoId";
+                    "AND di.id = :displayInfoId"
     )
     public List<DetailItemDTO> findDetailItemsByDisplayInfoId(@Param("displayInfoId") int displayInfoId);
 }
