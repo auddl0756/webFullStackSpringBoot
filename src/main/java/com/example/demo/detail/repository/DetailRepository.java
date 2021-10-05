@@ -2,6 +2,7 @@ package com.example.demo.detail.repository;
 
 import com.example.demo.detail.dto.DetailItemDTO;
 import com.example.demo.entity.ProductImage;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -23,5 +24,5 @@ public interface DetailRepository extends JpaRepository<ProductImage, Integer> {
                     ")" +
                     "AND di.id = :displayInfoId"
     )
-    public List<DetailItemDTO> findDetailItemsByDisplayInfoId(@Param("displayInfoId") int displayInfoId);
+    public List<DetailItemDTO> findDetailItemsByDisplayInfoId(@Param("displayInfoId") int displayInfoId, Pageable pageable);
 }

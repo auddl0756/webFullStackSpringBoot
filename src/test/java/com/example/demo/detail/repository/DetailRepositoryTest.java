@@ -5,6 +5,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
@@ -16,11 +19,12 @@ public class DetailRepositoryTest {
     private DetailRepository detailRepository;
 
     @Test
-    public void findDetailItemsTest(){
-        List<DetailItemDTO> result = detailRepository.findDetailItemsByDisplayInfoId(3);
+    public void findDetailItemsTest() {
+        Pageable pageable = PageRequest.of(0, 2, Sort.Direction.ASC, "displayInfoId");
+        List<DetailItemDTO> result = detailRepository.findDetailItemsByDisplayInfoId(2, pageable);
 
-        result.forEach(item->{
-            System.out.println(item.getDisplayInfoId()+" "+item.getProductImageUrl());
+        result.forEach(item -> {
+            System.out.println(item.getDisplayInfoId() + " " + item.getProductImageUrl());
         });
     }
 }
