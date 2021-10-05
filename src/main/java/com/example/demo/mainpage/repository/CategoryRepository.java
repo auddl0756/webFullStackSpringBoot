@@ -1,6 +1,6 @@
-package com.example.demo.repository;
+package com.example.demo.mainpage.repository;
 
-import com.example.demo.dto.CategoryTabDTO;
+import com.example.demo.mainpage.dto.CategoryTabDTO;
 import com.example.demo.entity.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

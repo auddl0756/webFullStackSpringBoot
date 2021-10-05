@@ -1,12 +1,10 @@
-package com.example.demo.repository;
+package com.example.demo.mainpage.repository;
 
-import com.example.demo.dto.ProductItemDTO;
-import com.example.demo.entity.Product;
+import com.example.demo.mainpage.dto.ProductItemDTO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;

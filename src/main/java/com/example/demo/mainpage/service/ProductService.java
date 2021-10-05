@@ -1,17 +1,14 @@
-package com.example.demo.service;
+package com.example.demo.mainpage.service;
 
-import com.example.demo.dto.ProductItemDTO;
-import com.example.demo.entity.Product;
-import com.example.demo.repository.ProductRepository;
+import com.example.demo.mainpage.dto.ProductItemDTO;
+import com.example.demo.mainpage.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class ProductService {

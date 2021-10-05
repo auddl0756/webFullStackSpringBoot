@@ -1,9 +1,9 @@
-package com.example.demo.controller;
+package com.example.demo.mainpage.controller;
 
-import com.example.demo.dto.CategoryTabDTO;
-import com.example.demo.dto.ProductItemDTO;
-import com.example.demo.service.CategoryService;
-import com.example.demo.service.ProductService;
+import com.example.demo.mainpage.dto.CategoryTabDTO;
+import com.example.demo.mainpage.dto.ProductItemDTO;
+import com.example.demo.mainpage.service.CategoryService;
+import com.example.demo.mainpage.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
