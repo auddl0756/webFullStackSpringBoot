@@ -1,8 +1,8 @@
-package com.example.demo.service;
+package com.example.demo.mainpage.service;
 
-import com.example.demo.dto.CategoryTabDTO;
-import com.example.demo.dto.ConcreteCategoryTabDTO;
-import com.example.demo.repository.CategoryRepository;
+import com.example.demo.mainpage.dto.CategoryTabDTO;
+import com.example.demo.mainpage.dto.ConcreteCategoryTabDTO;
+import com.example.demo.mainpage.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

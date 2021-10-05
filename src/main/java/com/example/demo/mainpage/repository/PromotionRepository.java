@@ -1,7 +1,6 @@
-package com.example.demo.repository;
+package com.example.demo.mainpage.repository;
 
-import com.example.demo.dto.PromotionImageDTO;
-import com.example.demo.entity.Product;
+import com.example.demo.mainpage.dto.PromotionImageDTO;
 import com.example.demo.entity.Promotion;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

@@ -1,8 +1,7 @@
-package com.example.demo.repository;
+package com.example.demo.mainpage.repository;
 
-import com.example.demo.dto.ProductItemDTO;
+import com.example.demo.mainpage.dto.ProductItemDTO;
 import com.example.demo.entity.Product;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

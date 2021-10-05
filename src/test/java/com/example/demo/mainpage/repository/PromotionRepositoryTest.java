@@ -1,6 +1,6 @@
-package com.example.demo.repository;
+package com.example.demo.mainpage.repository;
 
-import com.example.demo.dto.PromotionImageDTO;
+import com.example.demo.mainpage.dto.PromotionImageDTO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
