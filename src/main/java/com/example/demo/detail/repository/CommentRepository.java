@@ -11,8 +11,7 @@ import java.util.List;
 
 public interface CommentRepository extends JpaRepository<ReservationUserComment, Integer> {
     @Query(
-            "SELECT AVG(com.score) AS averageScore," +      //"ROUND function" 사용 불가...
-                    "com.id AS commentId," +
+            "SELECT com.id AS commentId," +
                     "com.comment AS comment," +
                     "com.createDate AS commentCreateDate," +
                     "com.modifyDate AS commentModifyDate," +

@@ -8,6 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -19,9 +20,13 @@ public class CommentRepositoryTest {
     public void getCommentsByDisplayInfoIdTest(){
         List<CommentDTO> result = commentRepository.getCommentsByDisplayInfoId(1);
 
+        System.out.println(result.size());
+
         result.forEach(x->{
+            assertThat(x.getCommentId()).isNotNull();
+
             System.out.println(x.getCommentId()+" "+x.getComment()+" "
-                    +x.getCommentCreateDate()+" "+x.getAverageScore());
+                    +x.getCommentCreateDate()+" "+x.getScore());
         });
     }
 }

@@ -4,16 +4,16 @@ import java.util.List;
 
 public interface CommentDTO {
     String getComment();
-    int getCommentId();
+    Integer getCommentId(); //int -> Integer (댓글이 없을 수도 있으니..?)
     String getCommentCreateDate();
     String getCommentModifyDate();
-    int getProductId();
+    Integer getProductId();
     String getReservationDate();
     String getReservationEmail();
-    int getReservationInfoId();
+    Integer getReservationInfoId();
     String getReservationName();
     String getReservationTelephone();
-    double getScore();
+    Double getScore();
 
-    double getAverageScore();
+    Double getAverageScore();
 }

@@ -2,6 +2,7 @@ package com.example.demo.detail.service;
 
 import com.example.demo.detail.dto.CommentDTO;
 import com.example.demo.detail.dto.CommentImageDTO;
+import com.example.demo.detail.dto.CommentResponseDTO;
 import com.example.demo.detail.dto.ConcreteCommentDTO;
 import com.example.demo.detail.repository.CommentImageRepository;
 import com.example.demo.detail.repository.CommentRepository;
@@ -19,14 +20,18 @@ public class CommentService {
     @Autowired
     private CommentRepository commentRepository;
 
-    public List<ConcreteCommentDTO> getCommentsByDisplayInfoId(int displayInfoId) {
-        List<ConcreteCommentDTO> result = new ArrayList<>();
+    public CommentResponseDTO getCommentsByDisplayInfoId(int displayInfoId) {
+        List<ConcreteCommentDTO> commentsWithImages = new ArrayList<>();
 
-        List<CommentDTO> comments = commentRepository.getCommentsByDisplayInfoId(displayInfoId);
+        List<CommentDTO> commentsOnly = commentRepository.getCommentsByDisplayInfoId(displayInfoId);
+
+        double averageScore = 0;
 
         //ConcreteDTO로 옮겨담는 작업.
         //이 작업은 불가피한가..
-        for (CommentDTO com : comments) {
+        for (CommentDTO com : commentsOnly) {
+            averageScore += com.getScore();
+
             ConcreteCommentDTO dto = ConcreteCommentDTO.builder()
                     .commentId(com.getCommentId())
                     .comment(com.getComment())
@@ -38,16 +43,23 @@ public class CommentService {
                     .reservationEmail(com.getReservationEmail())
                     .reservationName(com.getReservationName())
                     .reservationTelephone(com.getReservationTelephone())
-                    .score(String.format("%.1f",com.getScore()))
-                    .averageScore(String.format("%.3f",com.getAverageScore()))
+                    .score(String.format("%.1f", com.getScore()))
+                    //.averageScore(String.format("%.3f",com.getAverageScore()))
                     .build();
 
             List<CommentImageDTO> images = imageRepository.getCommentImagesByCommentId(com.getCommentId());
             dto.setImages(images);
 
-            result.add(dto);
+            commentsWithImages.add(dto);
         }
 
-        return result;
+        if(commentsOnly.isEmpty() == false){
+            averageScore /= commentsOnly.size();
+        }
+
+        return CommentResponseDTO.builder().
+                comments(commentsWithImages).
+                averageScore(String.format("%.2f", averageScore)).
+                build();
     }
 }

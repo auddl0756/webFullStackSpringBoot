@@ -7,10 +7,12 @@ async function initDetailPage() {
 
     let titleArea = new TitleArea();
     let titleData = await titleArea.requestTitleData(displayInfoId);
-    console.log(titleData);
 
     titleArea.drawTitleImage(titleData);
 
+    let commentArea = new CommentArea();
+    let commentData = await commentArea.requestInitialCommentData(displayInfoId);
+    console.log(commentData);
 }
 
 class TitleArea {
@@ -40,7 +42,7 @@ class TitleArea {
     requestTitleData(displayInfoId) {
         return new Promise(function (resolve, reject) {
             $.ajax({
-                url: "/api/detailData/" + displayInfoId,
+                url: "/api/detailTitleData/" + displayInfoId,
                 type: "get",
                 success: function (response) {
                     resolve(response);
@@ -113,5 +115,26 @@ class TitleArea {
             this.closeDescriptionButton.css('display', 'none');
             this.openDescriptionButton.css('display', 'block');
         }
+    }
+}
+
+class CommentArea{
+    constructor() {
+
+    }
+
+    requestInitialCommentData(displayInfoId){
+        return new Promise(function (resolve, reject) {
+            $.ajax({
+                url: "/api/comments/initial/" + displayInfoId,
+                type: "get",
+                success: function (response) {
+                    resolve(response);
+                },
+                error: function () {
+                    alert("promotion data load failed.");
+                }
+            });
+        });
     }
 }
