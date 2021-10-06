@@ -38,7 +38,8 @@ public class CommentService {
                     .reservationEmail(com.getReservationEmail())
                     .reservationName(com.getReservationName())
                     .reservationTelephone(com.getReservationTelephone())
-                    .score(com.getScore())
+                    .score(String.format("%.1f",com.getScore()))
+                    .averageScore(String.format("%.3f",com.getAverageScore()))
                     .build();
 
             List<CommentImageDTO> images = imageRepository.getCommentImagesByCommentId(com.getCommentId());

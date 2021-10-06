@@ -14,4 +14,6 @@ public interface CommentDTO {
     String getReservationName();
     String getReservationTelephone();
     double getScore();
+
+    double getAverageScore();
 }
