@@ -1,6 +1,6 @@
 package com.example.demo.detail.repository;
 
-import com.example.demo.detail.dto.DetailItemDTO;
+import com.example.demo.detail.dto.DetailTitleItemDTO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ public class DetailRepositoryTest {
     @Test
     public void findDetailItemsTest() {
         Pageable pageable = PageRequest.of(0, 2, Sort.Direction.ASC, "displayInfoId");
-        List<DetailItemDTO> result = detailRepository.findDetailItemsByDisplayInfoId(2, pageable);
+        List<DetailTitleItemDTO> result = detailRepository.findDetailItemsByDisplayInfoId(2, pageable);
 
         result.forEach(item -> {
             System.out.println(item.getDisplayInfoId() + " " + item.getProductImageUrl());

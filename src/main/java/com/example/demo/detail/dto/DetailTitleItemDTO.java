@@ -1,6 +1,6 @@
 package com.example.demo.detail.dto;
 
-public interface DetailItemDTO {
+public interface DetailTitleItemDTO {
     Integer getDisplayInfoId();
     String getContent();
     String getDescription();
