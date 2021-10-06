@@ -64,6 +64,7 @@ class TitleArea {
         }
 
         $('.visual_img').css('left', '0px');
+        $('.visual_img').css('transition','0.5s ease-in');
     }
 
     prevEvent() {
@@ -83,6 +84,7 @@ class TitleArea {
         if (nowLeft === -this.width) {  //마지막 이미지를 의미
             return;
         }
+
 
         $('.visual_img').css('left', (nowLeft - this.width) + "px");
 
