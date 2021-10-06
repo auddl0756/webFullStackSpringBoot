@@ -22,4 +22,8 @@ public class ReservationUserComment {
     @ManyToOne
     @JoinColumn(name="product_id")
     private Product product;
+
+    @ManyToOne
+    @JoinColumn(name="reservation_info_id")
+    private ReservationInfo reservationInfo;
 }
