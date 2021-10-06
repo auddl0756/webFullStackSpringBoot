@@ -20,11 +20,16 @@ class TitleArea {
 
         this.addEventListeners();
 
+        this.moreDescriptionButton = $('.store_details');
+        this.openDescriptionButton = $('#open_button');
+        this.closeDescriptionButton = $('#close_button');
+
     }
 
     addEventListeners() {
         $('.prev_inn').on('click', this.prevEvent.bind(this));
         $('.nxt_inn').on('click', this.nextEvent.bind(this));
+        $('.bk_more').on('click', this.descriptionEvent.bind(this));
     }
 
     requestTitleData(displayInfoId) {
@@ -64,7 +69,7 @@ class TitleArea {
         }
 
         $('.visual_img').css('left', '0px');
-        $('.visual_img').css('transition','0.5s ease-in');
+        $('.visual_img').css('transition', '0.5s ease-in');
     }
 
     prevEvent() {
@@ -90,5 +95,27 @@ class TitleArea {
 
         $('.nxt_inn').css('display', 'none');
         $('.prev_inn').css('display', 'inline-block');
+    }
+
+    descriptionEvent() {
+        if (this.moreDescriptionButton.hasClass('close3')) { //펼쳐지지 않은 기본 상태
+            this.moreDescriptionButton.removeClass('close3');
+            this.openDescriptionButton.css('display', 'none');
+            this.closeDescriptionButton.css('display', 'block');
+        } else {  //펼쳐진 상태
+            this.moreDescriptionButton.addClass('close3');
+            this.closeDescriptionButton.css('display', 'none');
+            this.openDescriptionButton.css('display', 'block');
+        }
+
+        // if($('.store_details').hasClass('close3')){ //펼쳐지지 않은 기본 상태
+        //     $('.store_details').removeClass('close3');
+        //     $('.bk_more, ._open').css('display','none');
+        //     $('.bk_more, ._close').css('display','block');
+        // }else{  //펼쳐진 상태
+        //     $('.store_details').addClass('close3');
+        //     $('.bk_more, ._open').css('display','block');
+        //     $('.bk_more, ._close').css('display','none');
+        // }
     }
 }
