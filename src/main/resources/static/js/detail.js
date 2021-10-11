@@ -14,9 +14,10 @@ async function initDetailPage() {
     let commentData = await commentArea.requestInitialCommentData(displayInfoId);
     console.log(commentData);
 
-    commentArea.drawGrade(parseFloat(commentData.averageScore),commentData.comments.length);
+    commentArea.drawGrade(parseFloat(commentData.averageScore), commentData.comments.length);
     commentArea.drawComments(commentData.comments);
 
+    let bottomTabArea = new BottomTabArea();
 }
 
 class TitleArea {
@@ -148,10 +149,10 @@ class CommentArea {
         });
     }
 
-    drawGrade(averageScore,totalCount) {
-        this.gradeGraphValue.css('width',100*averageScore/5.0 +"%");
+    drawGrade(averageScore, totalCount) {
+        this.gradeGraphValue.css('width', 100 * averageScore / 5.0 + "%");
         this.gradeTextValue.html(averageScore.toFixed(1));
-        this.totalCommentCountArea.html(totalCount+"건");
+        this.totalCommentCountArea.html(totalCount + "건");
     }
 
     drawComments(commentData) {
@@ -167,6 +168,37 @@ class CommentArea {
         }
 
         this.commentArea.html(resultHTML);
-
     }
+}
+
+class BottomTabArea {
+    constructor() {
+        this.tabArea = $('.info_tab_lst');
+        this.itemDetailTabAnchor = $('._detail > .anchor');
+        this.itemPathTabAnchor = $('._path > .anchor');
+        this.tabArea.on('click', this.toggleTabEvent.bind(this));
+
+        this.detailTabContent = $('.detail_area_wrap');
+        this.pathTabContent = $('.path_area_wrap');
+    }
+
+    toggleTabEvent(target) {
+        let liTag = target.target.closest('li');
+
+        if (liTag.classList.contains('_detail')) {
+            this.itemDetailTabAnchor.addClass('active');
+            this.itemPathTabAnchor.removeClass('active');
+
+            this.detailTabContent.removeClass('hide');
+            this.pathTabContent.addClass('hide');
+        } else if (liTag.classList.contains('_path')) {
+            this.itemPathTabAnchor.addClass('active');
+            this.itemDetailTabAnchor.removeClass('active');
+
+            this.detailTabContent.addClass('hide');
+            this.pathTabContent.removeClass('hide');
+        }
+    }
+
+
 }
