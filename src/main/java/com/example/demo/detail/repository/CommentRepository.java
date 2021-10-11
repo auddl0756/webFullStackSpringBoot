@@ -6,9 +6,11 @@ import com.example.demo.entity.ReservationUserComment;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface CommentRepository extends JpaRepository<ReservationUserComment, Integer> {
     @Query(
             "SELECT com.id AS commentId," +

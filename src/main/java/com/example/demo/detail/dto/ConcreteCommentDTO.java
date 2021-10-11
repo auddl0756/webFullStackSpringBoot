@@ -22,5 +22,5 @@ public class ConcreteCommentDTO {
     private String reservationTelephone;
     private String score;
 
-    private List<CommentImageDTO> images;
+    private CommentImageDTO image;
 }

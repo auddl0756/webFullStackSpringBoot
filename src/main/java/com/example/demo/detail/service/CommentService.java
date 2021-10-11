@@ -7,6 +7,10 @@ import com.example.demo.detail.dto.ConcreteCommentDTO;
 import com.example.demo.detail.repository.CommentImageRepository;
 import com.example.demo.detail.repository.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -19,6 +23,8 @@ public class CommentService {
 
     @Autowired
     private CommentRepository commentRepository;
+
+    private static final int IMAGE_PAGE_SIZE = 1;
 
     public CommentResponseDTO getCommentsByDisplayInfoId(int displayInfoId) {
         List<ConcreteCommentDTO> commentsWithImages = new ArrayList<>();
@@ -44,11 +50,17 @@ public class CommentService {
                     .reservationName(com.getReservationName())
                     .reservationTelephone(com.getReservationTelephone())
                     .score(String.format("%.1f", com.getScore()))
-                    //.averageScore(String.format("%.3f",com.getAverageScore()))
                     .build();
 
-            List<CommentImageDTO> images = imageRepository.getCommentImagesByCommentId(com.getCommentId());
-            dto.setImages(images);
+            //comment의 이미지 가져오기
+            Pageable pageable = PageRequest.of(0, IMAGE_PAGE_SIZE, Sort.Direction.ASC, "reservationUserCommentId");
+            Page<CommentImageDTO> commentImage = imageRepository.getCommentImagesByCommentId(com.getCommentId(),pageable);
+
+            if(commentImage.isEmpty()){
+                dto.setImage(null);
+            }else{
+                dto.setImage(commentImage.getContent().get(0));
+            }
 
             commentsWithImages.add(dto);
         }

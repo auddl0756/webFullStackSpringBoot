@@ -21,7 +21,11 @@ public class CommentServiceTest {
         List<ConcreteCommentDTO> result = commentService.getCommentsByDisplayInfoId(1).getComments();
 
         for (ConcreteCommentDTO dto : result) {
-            System.out.println(dto.getCommentId()+" "+dto.getComment()+" "+dto.getImages().size()+" "+dto.getScore());
+            System.out.print(dto.getCommentId() + " " + dto.getComment() + " " + dto.getScore() + " ");
+            if (dto.getImage() != null) {
+                System.out.print(dto.getImage().getSaveFileName());
+            }
+            System.out.println();
         }
     }
 }
