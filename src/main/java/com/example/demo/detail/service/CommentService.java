@@ -16,6 +16,8 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.demo.detail.dto.ConcreteCommentDTO.maskEmailAndReturn;
+
 @Service
 public class CommentService {
     @Autowired
@@ -24,12 +26,19 @@ public class CommentService {
     @Autowired
     private CommentRepository commentRepository;
 
+    private static final int FIRST_PAGE_NUMBER = 0;
+    private static final int COMMENT_PAGE_SIZE = 3;
     private static final int IMAGE_PAGE_SIZE = 1;
 
     public CommentResponseDTO getCommentsByDisplayInfoId(int displayInfoId) {
         List<ConcreteCommentDTO> commentsWithImages = new ArrayList<>();
 
-        List<CommentDTO> commentsOnly = commentRepository.getCommentsByDisplayInfoId(displayInfoId);
+        Pageable commentPageable = PageRequest.of(FIRST_PAGE_NUMBER,
+                COMMENT_PAGE_SIZE,
+                Sort.Direction.DESC,
+                "id");
+
+        List<CommentDTO> commentsOnly = commentRepository.getCommentsByDisplayInfoId(displayInfoId, commentPageable);
 
         double averageScore = 0;
 
@@ -46,26 +55,30 @@ public class CommentService {
                     .productId(com.getProductId())
                     .reservationInfoId(com.getReservationInfoId())
                     .reservationDate(com.getReservationDate())
-                    .reservationEmail(com.getReservationEmail())
+                    .reservationEmail(maskEmailAndReturn(com.getReservationEmail()))
                     .reservationName(com.getReservationName())
                     .reservationTelephone(com.getReservationTelephone())
                     .score(String.format("%.1f", com.getScore()))
                     .build();
 
             //comment의 이미지 가져오기
-            Pageable pageable = PageRequest.of(0, IMAGE_PAGE_SIZE, Sort.Direction.ASC, "reservationUserCommentId");
-            Page<CommentImageDTO> commentImage = imageRepository.getCommentImagesByCommentId(com.getCommentId(),pageable);
+            Pageable pageable = PageRequest.of(FIRST_PAGE_NUMBER,
+                    IMAGE_PAGE_SIZE,
+                    Sort.Direction.ASC,
+                    "reservationUserCommentId");
 
-            if(commentImage.isEmpty()){
+            Page<CommentImageDTO> commentImage = imageRepository.getCommentImagesByCommentId(com.getCommentId(), pageable);
+
+            if (commentImage.isEmpty()) {
                 dto.setImage(null);
-            }else{
+            } else {
                 dto.setImage(commentImage.getContent().get(0));
             }
 
             commentsWithImages.add(dto);
         }
 
-        if(commentsOnly.isEmpty() == false){
+        if (commentsOnly.isEmpty() == false) {
             averageScore /= commentsOnly.size();
         }
 

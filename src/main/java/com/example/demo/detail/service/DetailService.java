@@ -14,10 +14,10 @@ import java.util.List;
 public class DetailService {
     @Autowired
     private DetailRepository detailRepository;
-    private static final int PAGING_SIZE = 2;
+    private static final int PAGE_SIZE = 2;
 
     public List<DetailTitleItemDTO> getTitleData(int displayInfoId) {
-        Pageable pageable = PageRequest.of(0, PAGING_SIZE, Sort.Direction.ASC, "displayInfoId");
+        Pageable pageable = PageRequest.of(0, PAGE_SIZE, Sort.Direction.ASC, "displayInfoId");
         return detailRepository.findDetailItemsByDisplayInfoId(displayInfoId, pageable);
     }
 }

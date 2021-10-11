@@ -3,6 +3,7 @@ package com.example.demo.detail.repository;
 import com.example.demo.detail.dto.CommentDTO;
 import com.example.demo.detail.dto.ConcreteCommentDTO;
 import com.example.demo.entity.ReservationUserComment;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -27,6 +28,6 @@ public interface CommentRepository extends JpaRepository<ReservationUserComment,
                     "FROM ReservationUserComment com " +
                     "WHERE com.reservationInfo.displayInfo.id = :displayInfoId"
     )
-    public List<CommentDTO> getCommentsByDisplayInfoId(@Param("displayInfoId") int displayInfoId);
+    public List<CommentDTO> getCommentsByDisplayInfoId(@Param("displayInfoId") int displayInfoId, Pageable pageable);
 
 }

@@ -26,7 +26,7 @@ public class DetailApiController {
         return detailService.getTitleData(displayInfoId);
     }
 
-    //detail 페이지 초기 댓글(최대 4개) 요청
+    //detail 페이지 초기 댓글(최대 3개) 요청
     @GetMapping("/api/comments/initial/{displayInfoId}")
     public CommentResponseDTO getCommentData(@PathVariable int displayInfoId){
         return commentService.getCommentsByDisplayInfoId(displayInfoId);

@@ -23,4 +23,12 @@ public class ConcreteCommentDTO {
     private String score;
 
     private CommentImageDTO image;
+
+    public static String maskEmailAndReturn(String email) {
+        String maskedEmail = "";
+        for (int i = 0; i < Math.min(4, email.length()); i++) maskedEmail += email.charAt(i);
+        for (int i = 4; i < email.length(); i++) maskedEmail += '*';
+
+        return maskedEmail;
+    }
 }
