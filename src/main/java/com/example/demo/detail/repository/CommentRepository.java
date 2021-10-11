@@ -43,7 +43,8 @@ public interface CommentRepository extends JpaRepository<ReservationUserComment,
                     "com.reservationInfo.reservationTel AS reservationTelephone," +
                     "com.score AS score " +
                     "FROM ReservationUserComment com " +
-                    "WHERE com.reservationInfo.displayInfo.id = :displayInfoId"
+                    "WHERE com.reservationInfo.displayInfo.id = :displayInfoId " +
+                    "ORDER BY commentId DESC"
     )
     List<CommentDTO> getAllCommentsByDisplayInfoId(@Param("displayInfoId") int displayInfoId);
 
