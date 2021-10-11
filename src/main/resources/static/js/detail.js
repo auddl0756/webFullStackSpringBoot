@@ -13,6 +13,10 @@ async function initDetailPage() {
     let commentArea = new CommentArea();
     let commentData = await commentArea.requestInitialCommentData(displayInfoId);
     console.log(commentData);
+
+    commentArea.drawGrade(parseFloat(commentData.averageScore),commentData.comments.length);
+    commentArea.drawComments(commentData.comments);
+
 }
 
 class TitleArea {
@@ -118,12 +122,18 @@ class TitleArea {
     }
 }
 
-class CommentArea{
+class CommentArea {
     constructor() {
+        this.commentArea = $('.list_short_review');
+        this.commentTemplate = $('#commentTemplate').html();
+
+        this.gradeGraphValue = $('.graph_value');
+        this.gradeTextValue = $('.text_value > span');
+        this.totalCommentCountArea = $('.join_count > .green');
 
     }
 
-    requestInitialCommentData(displayInfoId){
+    requestInitialCommentData(displayInfoId) {
         return new Promise(function (resolve, reject) {
             $.ajax({
                 url: "/api/comments/initial/" + displayInfoId,
@@ -136,5 +146,27 @@ class CommentArea{
                 }
             });
         });
+    }
+
+    drawGrade(averageScore,totalCount) {
+        this.gradeGraphValue.css('width',100*averageScore/5.0 +"%");
+        this.gradeTextValue.html(averageScore.toFixed(1));
+        this.totalCommentCountArea.html(totalCount+"건");
+    }
+
+    drawComments(commentData) {
+        let bindTemplate = Handlebars.compile(this.commentTemplate);
+
+        let resultHTML = "";
+        for (let cData of commentData) {
+            if (cData.image !== null) {
+                cData.saveFileName = cData.image.saveFileName;
+            }
+
+            resultHTML += bindTemplate(cData);
+        }
+
+        this.commentArea.html(resultHTML);
+
     }
 }
