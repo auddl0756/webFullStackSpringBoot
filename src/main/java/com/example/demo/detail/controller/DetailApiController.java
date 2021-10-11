@@ -22,13 +22,15 @@ public class DetailApiController {
 
     //detail 페이지 타이틀 영역 데이터 요청
     @GetMapping("/api/detailTitleData/{displayInfoId}")
-    public List<DetailTitleItemDTO> getTitleData(@PathVariable int displayInfoId){
+    public List<DetailTitleItemDTO> getTitleData(@PathVariable int displayInfoId) {
         return detailService.getTitleData(displayInfoId);
     }
 
     //detail 페이지 초기 댓글(최대 3개) 요청
     @GetMapping("/api/comments/initial/{displayInfoId}")
-    public CommentResponseDTO getCommentData(@PathVariable int displayInfoId){
-        return commentService.getCommentsByDisplayInfoId(displayInfoId);
+    public CommentResponseDTO getInitialComments(@PathVariable int displayInfoId) {
+        return commentService.getInitialCommentsByDisplayInfoId(displayInfoId);
     }
+
+
 }

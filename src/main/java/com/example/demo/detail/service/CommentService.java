@@ -30,7 +30,7 @@ public class CommentService {
     private static final int COMMENT_PAGE_SIZE = 3;
     private static final int IMAGE_PAGE_SIZE = 1;
 
-    public CommentResponseDTO getCommentsByDisplayInfoId(int displayInfoId) {
+    public CommentResponseDTO getInitialCommentsByDisplayInfoId(int displayInfoId) {
         List<ConcreteCommentDTO> commentsWithImages = new ArrayList<>();
 
         Pageable commentPageable = PageRequest.of(FIRST_PAGE_NUMBER,
@@ -38,7 +38,7 @@ public class CommentService {
                 Sort.Direction.DESC,
                 "id");
 
-        List<CommentDTO> commentsOnly = commentRepository.getCommentsByDisplayInfoId(displayInfoId, commentPageable);
+        List<CommentDTO> commentsOnly = commentRepository.getInitialCommentsByDisplayInfoId(displayInfoId, commentPageable);
 
         double averageScore = 0;
 

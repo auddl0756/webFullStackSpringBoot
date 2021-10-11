@@ -21,12 +21,12 @@ public class CommentRepositoryTest {
     private CommentRepository commentRepository;
 
     @Test
-    public void getCommentsByDisplayInfoIdTest() {
+    public void getInitialCommentsByDisplayInfoIdTest() {
         Pageable commentPageable = PageRequest.of(0,
                 3,
                 Sort.Direction.DESC,
                 "id");
-        List<CommentDTO> result = commentRepository.getCommentsByDisplayInfoId(1, commentPageable);
+        List<CommentDTO> result = commentRepository.getInitialCommentsByDisplayInfoId(1, commentPageable);
 
         System.out.println(result.size());
 

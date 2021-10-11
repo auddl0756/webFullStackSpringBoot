@@ -17,8 +17,8 @@ public class CommentServiceTest {
     private CommentService commentService;
 
     @Test
-    public void getCommentsDataTest() {  //comment와 comment별 이미지들 가져오기 테스트
-        List<ConcreteCommentDTO> result = commentService.getCommentsByDisplayInfoId(1).getComments();
+    public void getInitialCommentsTest() {  //comment와 comment별 이미지들 가져오기 테스트
+        List<ConcreteCommentDTO> result = commentService.getInitialCommentsByDisplayInfoId(1).getComments();
 
         for (ConcreteCommentDTO dto : result) {
             System.out.print(dto.getCommentId() + " " + dto.getComment() + " " + dto.getScore() + " ");

@@ -28,6 +28,6 @@ public interface CommentRepository extends JpaRepository<ReservationUserComment,
                     "FROM ReservationUserComment com " +
                     "WHERE com.reservationInfo.displayInfo.id = :displayInfoId"
     )
-    public List<CommentDTO> getCommentsByDisplayInfoId(@Param("displayInfoId") int displayInfoId, Pageable pageable);
+    public List<CommentDTO> getInitialCommentsByDisplayInfoId(@Param("displayInfoId") int displayInfoId, Pageable pageable);
 
 }
