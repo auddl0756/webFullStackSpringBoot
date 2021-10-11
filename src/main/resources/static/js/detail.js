@@ -5,7 +5,7 @@ async function initDetailPage() {
 
     const displayInfoId = $('#container').attr('data-displayInfoId');
 
-    let titleArea = new TitleArea();
+    let titleArea = new TitleArea(displayInfoId);
     let titleData = await titleArea.requestTitleData(displayInfoId);
 
     titleArea.drawTitleImage(titleData);
@@ -21,6 +21,7 @@ async function initDetailPage() {
 
 class TitleArea {
     constructor(displayInfoId) {
+        this.displayInfoId = displayInfoId;
         this.width = 414;
         this.template = $('#detailTitleTemplate').html();
 
@@ -34,6 +35,8 @@ class TitleArea {
         this.openDescriptionButton = $('#open_button');
         this.closeDescriptionButton = $('#close_button');
 
+        this.bookingPageButton = $('.bk_btn');
+
         this.addEventListeners();
     }
 
@@ -41,6 +44,8 @@ class TitleArea {
         this.prevButton.on('click', this.prevEvent.bind(this));
         this.nextButton.on('click', this.nextEvent.bind(this));
         this.moreDescriptionButton.on('click', this.descriptionEvent.bind(this));
+        this.bookingPageButton.on('click', this.bookingPageEvent.bind(this));
+
     }
 
     requestTitleData(displayInfoId) {
@@ -119,6 +124,10 @@ class TitleArea {
             this.closeDescriptionButton.css('display', 'none');
             this.openDescriptionButton.css('display', 'block');
         }
+    }
+
+    bookingPageEvent() {
+        location.href = "/reserve?id=" + this.displayInfoId;
     }
 }
 
@@ -201,6 +210,4 @@ class BottomTabArea {
             this.pathTabContent.removeClass('hide');
         }
     }
-
-
 }

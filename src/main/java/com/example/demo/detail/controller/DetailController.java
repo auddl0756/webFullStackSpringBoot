@@ -18,4 +18,10 @@ public class DetailController {
         model.addAttribute("displayInfoId", displayInfoId);
         return "review";
     }
+
+    @GetMapping("/reserve")
+    public String reservePage(@RequestParam(name="id") int displayInfoId, Model model){
+        model.addAttribute("displayInfoId", displayInfoId);
+        return "reserve";
+    }
 }
