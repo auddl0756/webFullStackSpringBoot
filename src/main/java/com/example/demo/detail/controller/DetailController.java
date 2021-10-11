@@ -8,8 +8,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class DetailController {
     @GetMapping("/detail")
-    public String detailPage(@RequestParam(name="id") int displayInfoId, Model model){
-        model.addAttribute("displayInfoId",displayInfoId);
+    public String detailPage(@RequestParam(name = "id") int displayInfoId, Model model) {
+        model.addAttribute("displayInfoId", displayInfoId);
         return "detail";
+    }
+
+    @GetMapping("/review")
+    public String reviewPage(@RequestParam(name = "id") int displayInfoId, Model model) {
+        model.addAttribute("displayInfoId", displayInfoId);
+        return "review";
     }
 }
