@@ -1,4 +1,4 @@
-package com.example.demo.detail.service;
+package com.example.demo.detail.service.comment;
 
 import com.example.demo.detail.dto.CommentDTO;
 import com.example.demo.detail.dto.CommentImageDTO;
@@ -11,39 +11,33 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.demo.detail.dto.ConcreteCommentDTO.maskEmailAndReturn;
 
-@Service
-public class CommentService {
-    @Autowired
-    private CommentImageRepository imageRepository;
+public abstract class AbstractCommentService {
+    //template method 패턴 쓰면 괜찮을 것 같았다
+    //왜냐하면 댓글을 페이징해서 가져오는 코드와 전체 댓글을 가져오는 메서드가 코드가 많이 비슷해서
+
+    protected static final int FIRST_PAGE_NUMBER = 0;
+    protected static final int COMMENT_PAGE_SIZE = 3;
+    protected final int IMAGE_PAGE_SIZE = 1;
 
     @Autowired
-    private CommentRepository commentRepository;
+    protected CommentImageRepository imageRepository;
 
-    private static final int FIRST_PAGE_NUMBER = 0;
-    private static final int COMMENT_PAGE_SIZE = 3;
-    private static final int IMAGE_PAGE_SIZE = 1;
+    @Autowired
+    protected CommentRepository commentRepository;
 
-    public CommentResponseDTO getInitialCommentsByDisplayInfoId(int displayInfoId) {
+    public abstract List<CommentDTO> getCommentsOnly(int displayInfoId);
+
+    public final CommentResponseDTO getComments(int displayInfoId) {
+        List<CommentDTO> commentsOnly = getCommentsOnly(displayInfoId);
         List<ConcreteCommentDTO> commentsWithImages = new ArrayList<>();
-
-        Pageable commentPageable = PageRequest.of(FIRST_PAGE_NUMBER,
-                COMMENT_PAGE_SIZE,
-                Sort.Direction.DESC,
-                "id");
-
-        List<CommentDTO> commentsOnly = commentRepository.getInitialCommentsByDisplayInfoId(displayInfoId, commentPageable);
-
         double averageScore = 0;
 
-        //ConcreteDTO로 옮겨담는 작업.
-        //이 작업은 불가피한가..
         for (CommentDTO com : commentsOnly) {
             averageScore += com.getScore();
 
@@ -64,7 +58,7 @@ public class CommentService {
             //comment의 이미지 가져오기
             Pageable pageable = PageRequest.of(FIRST_PAGE_NUMBER,
                     IMAGE_PAGE_SIZE,
-                    Sort.Direction.ASC,
+                    Sort.Direction.DESC,
                     "reservationUserCommentId");
 
             Page<CommentImageDTO> commentImage = imageRepository.getCommentImagesByCommentId(com.getCommentId(), pageable);

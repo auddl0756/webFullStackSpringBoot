@@ -12,7 +12,6 @@ async function initDetailPage() {
 
     let commentArea = new CommentArea();
     let commentData = await commentArea.requestInitialCommentData(displayInfoId);
-    console.log(commentData);
 
     commentArea.drawGrade(parseFloat(commentData.averageScore), commentData.comments.length);
     commentArea.drawComments(commentData.comments);
@@ -53,7 +52,7 @@ class TitleArea {
                     resolve(response);
                 },
                 error: function () {
-                    alert("promotion data load failed.");
+                    alert("detail title data load failed.");
                 }
             });
         });
@@ -126,7 +125,8 @@ class TitleArea {
 class CommentArea {
     constructor() {
         this.commentArea = $('.list_short_review');
-        this.commentTemplate = $('#commentTemplate').html();
+        this.commentWithImageTemplate = $('#commentItemWithImageTemplate').html();
+        this.commentWithNoImageTemplate = $('#commentItemWithNoImageTemplate').html();
 
         this.gradeGraphValue = $('.graph_value');
         this.gradeTextValue = $('.text_value > span');
@@ -143,7 +143,7 @@ class CommentArea {
                     resolve(response);
                 },
                 error: function () {
-                    alert("promotion data load failed.");
+                    alert("detail comment data load failed.");
                 }
             });
         });
@@ -156,15 +156,17 @@ class CommentArea {
     }
 
     drawComments(commentData) {
-        let bindTemplate = Handlebars.compile(this.commentTemplate);
+        let commentWithImageBindTemplate = Handlebars.compile(this.commentWithImageTemplate);
+        let commentWithNoImageBindTemplate = Handlebars.compile(this.commentWithNoImageTemplate);
 
         let resultHTML = "";
         for (let cData of commentData) {
             if (cData.image !== null) {
                 cData.saveFileName = cData.image.saveFileName;
+                resultHTML += commentWithImageBindTemplate(cData);
+            } else {
+                resultHTML += commentWithNoImageBindTemplate(cData);
             }
-
-            resultHTML += bindTemplate(cData);
         }
 
         this.commentArea.html(resultHTML);
