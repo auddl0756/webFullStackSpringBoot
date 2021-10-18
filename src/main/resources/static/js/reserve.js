@@ -1,20 +1,26 @@
 document.addEventListener("DOMContentLoaded", initReservePage);
 
 async function initReservePage(){
-    //const displayInfoId =
+    const displayInfoId = $('#container').attr('data-displayInfoId');
 
     let titleArea = new TitleArea();
-    let titleData = await titleArea.requestDisplayInfo(1);
+    let titleData = await titleArea.requestDisplayInfo(displayInfoId);
     console.log(titleData);
 
     titleArea.drawTitleImage(titleData);
+    titleArea.drawTitleDetail(titleData);
 
+    let booking = new Booking();
+    booking.drawTicketArea(titleData.priceInfos);
 }
 
 class TitleArea{
     constructor() {
         this.titleImageSection = $('.visual_img');
-        this.titleTemplate = $('#titleTemplate').html();
+        this.titleImageTemplate = $('#titleImageTemplate').html();
+
+        this.titleDetailSection = $('.section_store_details');
+        this.titleDetailTemplate = $('#titleDetailTemplate').html();
 
     }
 
@@ -34,7 +40,7 @@ class TitleArea{
     }
 
     drawTitleImage(titleData){
-        let bindTemplate = Handlebars.compile(this.titleTemplate);
+        let bindTemplate = Handlebars.compile(this.titleImageTemplate);
         let resultHTML = "";
         let minPrice = 1000_000_000;
         for(const price of titleData.priceInfos){
@@ -48,6 +54,40 @@ class TitleArea{
         this.titleImageSection.html(resultHTML);
     }
 
+    drawTitleDetail(titleData){
+        let bindTemplate = Handlebars.compile(this.titleDetailTemplate);
+        let processedInfo = this.preprocessDisplayInfo(titleData);
+        let resultHTML = bindTemplate(processedInfo);
 
+        this.titleDetailSection.html(resultHTML);
+    }
+
+    preprocessDisplayInfo(titleData){
+        let resultInfo = {};
+        for(let key in titleData.displayInfo){
+            resultInfo[key] = titleData.displayInfo[key];
+        }
+        resultInfo['priceInfos'] = titleData.priceInfos;
+
+        return resultInfo;
+    }
+}
+
+class Booking{
+    constructor() {
+        this.ticketSection = $('.ticket_body');
+        this.ticketTemplate = $('#ticketTemplate').html();
+    }
+
+    drawTicketArea(priceInfos){
+        let bindTemplate = Handlebars.compile(this.ticketTemplate);
+        let resultHTML = "";
+
+        for(let priceInfo of priceInfos){
+            resultHTML+= bindTemplate(priceInfo);
+        }
+
+        this.ticketSection.html(resultHTML);
+    }
 }
 
