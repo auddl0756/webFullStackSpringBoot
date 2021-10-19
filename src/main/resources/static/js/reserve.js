@@ -120,7 +120,7 @@ class Ticket {
 
     }
 
-    changeTicketCSS(parentTag){
+    changeTicketCSS(parentTag) {
         let countTag = $(parentTag).find('.count_control_input');
         let minusButton = $(parentTag).find('#minus');
         let value = parseInt($(countTag).val());
@@ -146,14 +146,49 @@ class Ticket {
 }
 
 
-class BookingForm{
+class BookingForm {
     constructor(reservationDate) {
-        this.form = $('#booking_form');
+        this.form = $('.form_horizontal');
+        this.formName = $(this.form).find('#name');
+        this.formTel = $(this.form).find('#tel');
+        this.formEmail = $(this.form).find('#email');
+
         this.setReservationDate(reservationDate);
+        this.bookButton = $('.bk_btn');
+
+        this.addEventListeners();
     }
 
-    setReservationDate(reservationDate){
-        $('#reservation_description').prepend(reservationDate+", 총");
+    setReservationDate(reservationDate) {
+        $('#reservation_description').prepend(reservationDate + ", 총");
     }
+
+    addEventListeners() {
+        this.bookButton.on('click', this.submitFormEvent.bind(this));
+    }
+
+    submitFormEvent() {
+        let data = {};
+        data['name'] = $(this.formName).val();
+        data['tel'] = $(this.formTel).val();
+        data['email'] = $(this.formEmail).val();
+
+        $.ajax({
+            url: "/api/reservations",
+            type: "POST",
+            data: JSON.stringify(data),     //JSON.stringfy(객체) : 객체를 json 문자열로 변환.
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function () {
+                location.href="/";
+            },
+            error: function () {
+                console.log("failed to make a reserve.");
+            }
+        });
+
+    }
+
+
 }
 
