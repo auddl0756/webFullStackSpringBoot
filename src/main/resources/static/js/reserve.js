@@ -105,29 +105,38 @@ class Booking {
         let parentTag = clickedTag.closest('.clearfix');
         let countTag = $(parentTag).find('.count_control_input');
         let value = parseInt($(countTag).val());
-        let minusButton =  $(parentTag).find('#minus');
+        let minusButton = $(parentTag).find('#minus');
 
         if (id === 'plus') {
-            value+=1;
+            value += 1;
         } else if (id === 'minus') {
-            value = Math.max(0,value-1);
+            value = Math.max(0, value - 1);
         }
 
         $(countTag).val(value);
+
+        this.changeTicketCSS(parentTag);
+
+    }
+
+    changeTicketCSS(parentTag){
+        let countTag = $(parentTag).find('.count_control_input');
+        let minusButton = $(parentTag).find('#minus');
+        let value = parseInt($(countTag).val());
 
         let priceInfoSection = $(parentTag).parent().next();
         const unitPrice = parseInt($(priceInfoSection).find('.price').html());
 
         let totalPriceSection = $(parentTag).next();
         let totalPriceTag = $(totalPriceSection).find('.total_price');
-        const totalPrice = unitPrice*value;
+        const totalPrice = unitPrice * value;
         totalPriceTag.html(totalPrice);
 
-        if(value===0){
+        if (value === 0) {
             minusButton.addClass('disabled');
             $(countTag).addClass('disabled');
             $(totalPriceSection).removeClass('on_color');
-        }else{
+        } else {
             minusButton.removeClass('disabled');
             $(countTag).removeClass('disabled');
             $(totalPriceSection).addClass('on_color');
