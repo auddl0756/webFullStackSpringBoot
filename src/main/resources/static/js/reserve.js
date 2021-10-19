@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", initReservePage);
 
-async function initReservePage(){
+async function initReservePage() {
     const displayInfoId = $('#container').attr('data-displayInfoId');
 
     let titleArea = new TitleArea();
@@ -12,9 +12,11 @@ async function initReservePage(){
 
     let booking = new Booking();
     booking.drawTicketArea(titleData.priceInfos);
+    booking.addEventListeners();
+
 }
 
-class TitleArea{
+class TitleArea {
     constructor() {
         this.titleImageSection = $('.visual_img');
         this.titleImageTemplate = $('#titleImageTemplate').html();
@@ -39,12 +41,12 @@ class TitleArea{
         });
     }
 
-    drawTitleImage(titleData){
+    drawTitleImage(titleData) {
         let bindTemplate = Handlebars.compile(this.titleImageTemplate);
         let resultHTML = "";
         let minPrice = 1000_000_000;
-        for(const price of titleData.priceInfos){
-            minPrice = Math.min(minPrice,price.discountedPrice);
+        for (const price of titleData.priceInfos) {
+            minPrice = Math.min(minPrice, price.discountedPrice);
         }
 
         titleData.displayInfo.minPrice = minPrice;
@@ -54,7 +56,7 @@ class TitleArea{
         this.titleImageSection.html(resultHTML);
     }
 
-    drawTitleDetail(titleData){
+    drawTitleDetail(titleData) {
         let bindTemplate = Handlebars.compile(this.titleDetailTemplate);
         let processedInfo = this.preprocessDisplayInfo(titleData);
         let resultHTML = bindTemplate(processedInfo);
@@ -62,9 +64,9 @@ class TitleArea{
         this.titleDetailSection.html(resultHTML);
     }
 
-    preprocessDisplayInfo(titleData){
+    preprocessDisplayInfo(titleData) {
         let resultInfo = {};
-        for(let key in titleData.displayInfo){
+        for (let key in titleData.displayInfo) {
             resultInfo[key] = titleData.displayInfo[key];
         }
         resultInfo['priceInfos'] = titleData.priceInfos;
@@ -73,21 +75,63 @@ class TitleArea{
     }
 }
 
-class Booking{
+class Booking {
     constructor() {
         this.ticketSection = $('.ticket_body');
         this.ticketTemplate = $('#ticketTemplate').html();
+        this.ticketButton = $('.clearfix');
+
     }
 
-    drawTicketArea(priceInfos){
+    addEventListeners() {
+        $('.clearfix').on("click", this.ticketSelectEvent.bind(this));
+    }
+
+    drawTicketArea(priceInfos) {
         let bindTemplate = Handlebars.compile(this.ticketTemplate);
         let resultHTML = "";
 
-        for(let priceInfo of priceInfos){
-            resultHTML+= bindTemplate(priceInfo);
+        for (let priceInfo of priceInfos) {
+            resultHTML += bindTemplate(priceInfo);
         }
 
         this.ticketSection.html(resultHTML);
+    }
+
+    //DOM 선택이 너무 조잡함. 수정 필요.
+    ticketSelectEvent() {
+        let clickedTag = event.target;
+        let id = clickedTag.id;
+        let parentTag = clickedTag.closest('.clearfix');
+        let countTag = $(parentTag).find('.count_control_input');
+        let value = parseInt($(countTag).val());
+        let minusButton =  $(parentTag).find('#minus');
+
+        if (id === 'plus') {
+            value+=1;
+        } else if (id === 'minus') {
+            value = Math.max(0,value-1);
+        }
+
+        $(countTag).val(value);
+
+        let priceInfoSection = $(parentTag).parent().next();
+        const unitPrice = parseInt($(priceInfoSection).find('.price').html());
+
+        let totalPriceSection = $(parentTag).next();
+        let totalPriceTag = $(totalPriceSection).find('.total_price');
+        const totalPrice = unitPrice*value;
+        totalPriceTag.html(totalPrice);
+
+        if(value===0){
+            minusButton.addClass('disabled');
+            $(countTag).addClass('disabled');
+            $(totalPriceSection).removeClass('on_color');
+        }else{
+            minusButton.removeClass('disabled');
+            $(countTag).removeClass('disabled');
+            $(totalPriceSection).addClass('on_color');
+        }
     }
 }
 
