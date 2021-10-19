@@ -10,10 +10,11 @@ async function initReservePage() {
     titleArea.drawTitleImage(titleData);
     titleArea.drawTitleDetail(titleData);
 
-    let booking = new Booking();
-    booking.drawTicketArea(titleData.priceInfos);
-    booking.addEventListeners();
+    let ticket = new Ticket();
+    ticket.drawTicketArea(titleData.priceInfos);
+    ticket.addEventListeners();
 
+    let bookingForm = new BookingForm(titleData.displayInfo.reservationDate);
 }
 
 class TitleArea {
@@ -75,7 +76,7 @@ class TitleArea {
     }
 }
 
-class Booking {
+class Ticket {
     constructor() {
         this.ticketSection = $('.ticket_body');
         this.ticketTemplate = $('#ticketTemplate').html();
@@ -141,6 +142,18 @@ class Booking {
             $(countTag).removeClass('disabled');
             $(totalPriceSection).addClass('on_color');
         }
+    }
+}
+
+
+class BookingForm{
+    constructor(reservationDate) {
+        this.form = $('#booking_form');
+        this.setReservationDate(reservationDate);
+    }
+
+    setReservationDate(reservationDate){
+        $('#reservation_description').prepend(reservationDate+", 총");
     }
 }
 

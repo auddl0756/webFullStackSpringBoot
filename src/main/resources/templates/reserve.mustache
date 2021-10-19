@@ -61,7 +61,7 @@
                         <h3 class="out_tit">예매자 정보</h3>
                         <div class="agreement_nessasary help_txt"><span class="spr_book ico_nessasary"></span> <span>필수입력</span>
                         </div>
-                        <form class="form_horizontal">
+                        <form id="booking_form" class="form_horizontal">
                             <div class="inline_form"><label class="label" for="name"> <span
                                     class="spr_book ico_nessasary">필수</span> <span>예매자</span> </label>
                                 <div class="inline_control"><input type="text" name="name" id="name" class="text"
@@ -83,7 +83,9 @@
                             </div>
                             <div class="inline_form last"><label class="label" for="message">예매내용</label>
                                 <div class="inline_control">
-                                    <p class="inline_txt selected">2017.2.17, 총 <span id="totalCount">16</span>매</p>
+                                    <p id="reservation_description" class="inline_txt selected">
+                                        <span id="totalCount">0</span>매
+                                    </p>
                                 </div>
                             </div>
                         </form>
