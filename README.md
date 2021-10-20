@@ -29,3 +29,4 @@
 - [jQuery 객체](https://ktko.tistory.com/entry/jQuery-%EC%9D%98-%EC%9D%98%EB%AF%B8)
 - [태그의 클래스 조작하기](https://webstudynote.tistory.com/95)
 - [jQuery html 요소 삽입](https://mjmjmj98.tistory.com/29)
+- [html hidden input type](http://tcpschool.com/html-input-types/hidden)

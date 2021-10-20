@@ -14,7 +14,7 @@ async function initReservePage() {
     ticket.drawTicketArea(titleData.priceInfos);
     ticket.addEventListeners();
 
-    let bookingForm = new BookingForm(titleData.displayInfo.reservationDate);
+    let bookingForm = new BookingForm(titleData.displayInfo.reservationDate,displayInfoId,titleData.priceInfos);
 }
 
 class TitleArea {
@@ -147,11 +147,13 @@ class Ticket {
 
 
 class BookingForm {
-    constructor(reservationDate) {
+    constructor(reservationDate,displayInfoId,priceInfos) {
         this.form = $('.form_horizontal');
         this.formName = $(this.form).find('#name');
         this.formTel = $(this.form).find('#tel');
         this.formEmail = $(this.form).find('#email');
+        this.displayInfoId = displayInfoId;
+        this.priceInfos = priceInfos;
 
         this.setReservationDate(reservationDate);
         this.bookButton = $('.bk_btn');
@@ -172,6 +174,21 @@ class BookingForm {
         data['name'] = $(this.formName).val();
         data['tel'] = $(this.formTel).val();
         data['email'] = $(this.formEmail).val();
+        data['displayInfoId'] = this.displayInfoId;
+
+        let ticketButtons = $('.clearfix');
+
+        let prices = [];
+
+        for(let ticketButton of ticketButtons){
+            let price = {};
+            price['count'] = $(ticketButton).find('.count_control_input').val();
+            price['productPriceId'] =$(ticketButton).find('.productPriceIdHidden').val();
+            prices.push(price);
+        }
+        data['prices'] = prices;
+
+        console.log(data);
 
         $.ajax({
             url: "/api/reservations",

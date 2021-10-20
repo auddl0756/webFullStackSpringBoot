@@ -88,6 +88,12 @@
                                     </p>
                                 </div>
                             </div>
+
+                            <!-- 숨겨진 입력 필드는 렌더링이 끝난 웹 페이지에서 전혀 보이지 않고,
+                             페이지 콘텐츠 내에서 그것을 볼 수 있게 만드는 방법도 없다! -->
+                            <input type="hidden" id="displayInfoId" value="">
+                            <input type="hidden" id="prices" value="">
+
                         </form>
                     </div>
                 </div>
@@ -190,11 +196,19 @@
             <div class="clearfix">
                 <a id="minus" class="btn_plus_minus spr_book2 ico_minus3 disabled" title="빼기"> </a>
                 <input type="tel" class="count_control_input disabled" value="0" readonly title="수량">
+                <input type="hidden" class="count_hidden" value="0">
                 <a id="plus" class="btn_plus_minus spr_book2 ico_plus3" title="더하기"> </a>
+                <label>
+                    <input hidden class="productPriceIdHidden" value="{{productPriceId}}">
+                </label>
             </div>
             <!-- [D] 금액이 0 이상이면 individual_price에 on_color 추가 -->
-            <div class="individual_price"><span class="total_price">0</span><span
-                    class="price_type">원</span></div>
+            <div class="individual_price">
+                <span class="total_price">0</span>
+                <span class="price_type">원</span>
+            </div>
+
+
         </div>
         <div class="qty_info_icon">
             <strong class="product_amount"> <span>{{priceTypeName}}</span> </strong>
