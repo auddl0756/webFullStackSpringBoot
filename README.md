@@ -20,9 +20,13 @@
 ## 참고 자료
 ### 백엔드
 - [Optional[pageRequest] not found in annotated query 오류](https://stackoverflow.com/questions/54620809/how-to-get-pagerequest-to-work-in-spring-boot-with-annotated-query)
+- [컨트롤러에서 상태 코드 포함하여 응답하기](https://recordsoflife.tistory.com/501)
+- JPA dto projection (interface or constructor expression)
 
 ### 프론트엔드
 - [mustache docs](https://mustache.github.io/mustache.5.html)
 - [Handlebars 강의](https://www.boostcourse.org/web316/lecture/254357?isDesc=false)
 - [jQuery 객체](https://ktko.tistory.com/entry/jQuery-%EC%9D%98-%EC%9D%98%EB%AF%B8)
 - [태그의 클래스 조작하기](https://webstudynote.tistory.com/95)
+- [jQuery html 요소 삽입](https://mjmjmj98.tistory.com/29)
+- [html hidden input type](http://tcpschool.com/html-input-types/hidden)

@@ -4,14 +4,16 @@ import lombok.*;
 
 import javax.persistence.*;
 
-@ToString
+@ToString(exclude = {"product","display_info"})
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
 @Getter
 @Entity
 public class ReservationInfo {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     private String reservationName;
@@ -21,7 +23,6 @@ public class ReservationInfo {
     private String reservationDate;
     private String createDate;
     private String modifyDate;
-
 
     @ManyToOne
     @JoinColumn(name="product_id")
