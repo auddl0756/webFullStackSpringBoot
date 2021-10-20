@@ -4,14 +4,16 @@ import lombok.*;
 
 import javax.persistence.*;
 
-@ToString
+@ToString(exclude = {"product"})
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
 @Getter
 @Entity
 public class ProductPrice {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     private String priceTypeName;

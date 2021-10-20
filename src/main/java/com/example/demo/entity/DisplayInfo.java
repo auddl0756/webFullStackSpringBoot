@@ -5,13 +5,15 @@ import lombok.*;
 import javax.persistence.*;
 
 @ToString
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
 @Getter
 @Entity
 public class DisplayInfo {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     private String placeName;

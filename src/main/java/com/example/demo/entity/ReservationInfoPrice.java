@@ -4,15 +4,19 @@ import lombok.*;
 
 import javax.persistence.*;
 
-@ToString
+@ToString(exclude = {"reservation_info","product_price"})
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
 @Getter
 @Entity
 public class ReservationInfoPrice {
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    private int count;
 
     @ManyToOne
     @JoinColumn(name="reservation_info_id")
