@@ -10,6 +10,7 @@ import lombok.ToString;
 @Getter
 @AllArgsConstructor
 public class PriceDTO {
+    private int productPriceId;
     private String priceTypeName;
     private double discountedPrice;
     private double discountRate;

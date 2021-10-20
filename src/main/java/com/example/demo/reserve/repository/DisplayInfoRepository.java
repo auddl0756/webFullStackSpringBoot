@@ -29,6 +29,7 @@ public interface DisplayInfoRepository extends JpaRepository<DisplayInfo, Intege
 
     @Query(
             "SELECT new com.example.demo.reserve.dto.displayInfo.PriceDTO (" +
+                    "pp.id," +
                     "pp.priceTypeName, " +
                     "pp.price * (100.0 - pp.discountRate) / 100," +
                     "pp.discountRate" +
