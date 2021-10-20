@@ -14,7 +14,7 @@ async function initReservePage() {
     ticket.drawTicketArea(titleData.priceInfos);
     ticket.addEventListeners();
 
-    let bookingForm = new BookingForm(titleData.displayInfo.reservationDate,displayInfoId,titleData.priceInfos);
+    let bookingForm = new BookingForm(titleData.displayInfo.reservationDate, displayInfoId, titleData.priceInfos);
 }
 
 class TitleArea {
@@ -147,7 +147,7 @@ class Ticket {
 
 
 class BookingForm {
-    constructor(reservationDate,displayInfoId,priceInfos) {
+    constructor(reservationDate, displayInfoId, priceInfos) {
         this.form = $('.form_horizontal');
         this.formName = $(this.form).find('#name');
         this.formTel = $(this.form).find('#tel');
@@ -170,42 +170,39 @@ class BookingForm {
     }
 
     submitFormEvent() {
-        let data = {};
-        data['name'] = $(this.formName).val();
-        data['tel'] = $(this.formTel).val();
-        data['email'] = $(this.formEmail).val();
-        data['displayInfoId'] = this.displayInfoId;
+        let bookingData = {};
+        bookingData['name'] = $(this.formName).val();
+        bookingData['tel'] = $(this.formTel).val();
+        bookingData['email'] = $(this.formEmail).val();
+        bookingData['displayInfoId'] = this.displayInfoId;
 
         let ticketButtons = $('.clearfix');
 
         let prices = [];
 
-        for(let ticketButton of ticketButtons){
+        for (let ticketButton of ticketButtons) {
             let price = {};
             price['count'] = $(ticketButton).find('.count_control_input').val();
-            price['productPriceId'] =$(ticketButton).find('.productPriceIdHidden').val();
+            price['productPriceId'] = $(ticketButton).find('.productPriceIdHidden').val();
             prices.push(price);
         }
-        data['prices'] = prices;
+        bookingData['prices'] = prices;
 
-        console.log(data);
+        console.log(bookingData);
 
         $.ajax({
             url: "/api/reservations",
             type: "POST",
-            data: JSON.stringify(data),     //JSON.stringfy(객체) : 객체를 json 문자열로 변환.
+            data: JSON.stringify(bookingData),     //JSON.stringfy(객체) : 객체를 json 문자열로 변환.
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function () {
-                location.href="/";
+                location.href = "/";
             },
             error: function () {
                 console.log("failed to make a reserve.");
             }
         });
-
     }
-
-
 }
 
