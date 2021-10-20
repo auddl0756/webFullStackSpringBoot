@@ -17,7 +17,7 @@ public class BookingController {
     public HttpStatus makeReservation(@RequestBody BookingFormRequest reservationParam){
         System.out.println(reservationParam);
 
-        bookingService.makeReservation();
+        bookingService.makeReservation(reservationParam);
 
         return HttpStatus.OK;
     }

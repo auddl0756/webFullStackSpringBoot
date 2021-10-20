@@ -14,6 +14,7 @@ import java.time.format.DateTimeFormatter;
 @ToString
 public class DisplayInfoDTO {
     private Integer displayInfoId;
+    private Integer productId;
     private String description;
     private String openingHours;
     private String placeName;

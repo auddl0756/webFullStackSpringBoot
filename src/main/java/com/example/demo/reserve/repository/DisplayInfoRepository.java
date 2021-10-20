@@ -15,6 +15,7 @@ public interface DisplayInfoRepository extends JpaRepository<DisplayInfo, Intege
     @Query(
             "SELECT new com.example.demo.reserve.dto.displayInfo.DisplayInfoDTO (" +
                     "di.id," +
+                    "di.product.id," +
                     "di.product.description," +
                     "di.openingHours," +
                     "di.placeName," +

@@ -16,5 +16,6 @@ public class BookingFormRequest {
     private String tel;
     private String email;
     private int displayInfoId;
+    private int productId;
     private List<FormPrice> prices;
 }
