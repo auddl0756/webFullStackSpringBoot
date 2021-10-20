@@ -11,7 +11,7 @@ async function initReservePage() {
     titleArea.drawTitleDetail(titleData);
 
     let ticket = new Ticket();
-    ticket.drawTicketArea(titleData.priceInfos,titleData.displayInfo.productId);
+    ticket.drawTicketArea(titleData.priceInfos, titleData.displayInfo.productId);
     ticket.addEventListeners();
 
     let bookingForm = new BookingForm(titleData.displayInfo, titleData.priceInfos);
@@ -89,7 +89,7 @@ class Ticket {
         $('.clearfix').on("click", this.ticketSelectEvent.bind(this));
     }
 
-    drawTicketArea(priceInfos,productId) {
+    drawTicketArea(priceInfos, productId) {
         let bindTemplate = Handlebars.compile(this.ticketTemplate);
         let resultHTML = "";
 
@@ -147,8 +147,7 @@ class Ticket {
 
 
 class BookingForm {
-    //constructor(reservationDate, displayInfoId, priceInfos,productId) {
-    constructor(displayInfo,priceInfos) {
+    constructor(displayInfo, priceInfos) {
         this.form = $('.form_horizontal');
         this.formName = $(this.form).find('#name');
         this.formTel = $(this.form).find('#tel');
@@ -156,6 +155,7 @@ class BookingForm {
         this.displayInfoId = displayInfo.displayInfoId;
         this.priceInfos = priceInfos;
         this.productId = displayInfo.productId;
+        this.reservationDate = displayInfo.reservationDate;
 
         this.setReservationDate(displayInfo.reservationDate);
         this.bookButton = $('.bk_btn');
@@ -178,20 +178,24 @@ class BookingForm {
         bookingData['email'] = $(this.formEmail).val();
         bookingData['displayInfoId'] = this.displayInfoId;
         bookingData['productId'] = this.productId;
-
+        bookingData['reservationDate'] = this.reservationDate;
         let ticketButtons = $('.clearfix');
 
         let prices = [];
 
         for (let ticketButton of ticketButtons) {
+            //선택하지 않은 티켓은 저장 요청하지 않도록 하기 위해
+            let count = $(ticketButton).find('.count_control_input').val();
+            if (count <= 0) {
+                continue;
+            }
+
             let price = {};
-            price['count'] = $(ticketButton).find('.count_control_input').val();
+            price['count'] = count;
             price['productPriceId'] = $(ticketButton).find('.productPriceIdHidden').val();
             prices.push(price);
         }
         bookingData['prices'] = prices;
-
-        console.log(bookingData);
 
         $.ajax({
             url: "/api/reservations",
@@ -200,7 +204,7 @@ class BookingForm {
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function () {
-                // location.href = "/";
+                location.href = "/";
             },
             error: function () {
                 console.log("failed to make a reserve.");
