@@ -11,10 +11,11 @@ async function initReservePage() {
     titleArea.drawTitleDetail(titleData);
 
     let ticket = new Ticket();
-    ticket.drawTicketArea(titleData.priceInfos);
+    ticket.drawTicketArea(titleData.priceInfos,titleData.displayInfo.productId);
     ticket.addEventListeners();
 
-    let bookingForm = new BookingForm(titleData.displayInfo.reservationDate, displayInfoId, titleData.priceInfos);
+    let bookingForm = new BookingForm(titleData.displayInfo, titleData.priceInfos);
+
 }
 
 class TitleArea {
@@ -88,7 +89,7 @@ class Ticket {
         $('.clearfix').on("click", this.ticketSelectEvent.bind(this));
     }
 
-    drawTicketArea(priceInfos) {
+    drawTicketArea(priceInfos,productId) {
         let bindTemplate = Handlebars.compile(this.ticketTemplate);
         let resultHTML = "";
 
@@ -99,7 +100,6 @@ class Ticket {
         this.ticketSection.html(resultHTML);
     }
 
-    //DOM 선택이 너무 조잡함. 수정 필요.
     ticketSelectEvent() {
         let clickedTag = event.target;
         let id = clickedTag.id;
@@ -147,15 +147,17 @@ class Ticket {
 
 
 class BookingForm {
-    constructor(reservationDate, displayInfoId, priceInfos) {
+    //constructor(reservationDate, displayInfoId, priceInfos,productId) {
+    constructor(displayInfo,priceInfos) {
         this.form = $('.form_horizontal');
         this.formName = $(this.form).find('#name');
         this.formTel = $(this.form).find('#tel');
         this.formEmail = $(this.form).find('#email');
-        this.displayInfoId = displayInfoId;
+        this.displayInfoId = displayInfo.displayInfoId;
         this.priceInfos = priceInfos;
+        this.productId = displayInfo.productId;
 
-        this.setReservationDate(reservationDate);
+        this.setReservationDate(displayInfo.reservationDate);
         this.bookButton = $('.bk_btn');
 
         this.addEventListeners();
@@ -175,6 +177,7 @@ class BookingForm {
         bookingData['tel'] = $(this.formTel).val();
         bookingData['email'] = $(this.formEmail).val();
         bookingData['displayInfoId'] = this.displayInfoId;
+        bookingData['productId'] = this.productId;
 
         let ticketButtons = $('.clearfix');
 
@@ -197,7 +200,7 @@ class BookingForm {
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function () {
-                location.href = "/";
+                // location.href = "/";
             },
             error: function () {
                 console.log("failed to make a reserve.");
