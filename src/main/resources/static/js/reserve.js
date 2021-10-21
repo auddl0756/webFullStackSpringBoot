@@ -158,7 +158,7 @@ class BookingForm {
         this.reservationDate = displayInfo.reservationDate;
 
         this.setReservationDate(displayInfo.reservationDate);
-        this.bookButton = $('.bk_btn');
+        this.reservationButton = $('.bk_btn');
 
         this.addEventListeners();
     }
@@ -169,9 +169,11 @@ class BookingForm {
     }
 
     addEventListeners() {
-        this.bookButton.on('click', this.submitFormEvent.bind(this));
+        this.reservationButton.on('click', this.validateForm.bind(this));
 
-        this.form.on('change',this.validateForm.bind(this));
+        this.formName.on('change',this.errorName.bind(this));
+        this.formTel.on('change',this.errorPhone.bind(this));
+        this.formEmail.on('change',this.errorEmail.bind(this));
     }
 
     validateName(){
@@ -183,11 +185,33 @@ class BookingForm {
         return regExprEnglishName.test(formInputName) || regExprKoreanName.test(formInputName);
     }
 
+    errorName(){
+        let isNameValid = this.validateName();
+        if (isNameValid === false) {
+            $('#name_warning').css('visibility', 'visible');
+
+            setTimeout(function(){
+                $('#name_warning').css("visibility","hidden")
+            },1000);
+        }
+    }
+
     validatePhone() {
         let regExprPhone = new RegExp(/\d{3}[-]\d{4}[-]\d{4}/);
         let formInputPhone = $('#tel').val();
 
         return regExprPhone.test(formInputPhone);
+    }
+
+    errorPhone(){
+        let isPhoneValid = this.validatePhone();
+        if (isPhoneValid === false) {
+            $('#tel_warning').css('visibility', 'visible');
+
+            setTimeout(function(){
+                $('#tel_warning').css("visibility","hidden")
+            },1000);
+        }
     }
 
     validateEmail(){
@@ -197,25 +221,7 @@ class BookingForm {
         return regExprEmail.test(formInputEmail);
     }
 
-    validateForm() {
-        let isPhoneValid = this.validatePhone();
-        if (isPhoneValid === false) {
-            $('#tel_warning').css('visibility', 'visible');
-
-            setTimeout(function(){
-                $('#tel_warning').css("visibility","hidden")
-            },1000);
-        }
-
-        let isNameValid = this.validateName();
-        if (isNameValid === false) {
-            $('#name_warning').css('visibility', 'visible');
-
-            setTimeout(function(){
-                $('#name_warning').css("visibility","hidden")
-            },1000);
-        }
-
+    errorEmail(){
         let isEmailValid = this.validateEmail();
         if (isEmailValid === false) {
             $('#email_warning').css('visibility', 'visible');
@@ -224,8 +230,15 @@ class BookingForm {
                 $('#email_warning').css("visibility","hidden")
             },1000);
         }
+    }
 
-        return isNameValid && isPhoneValid && isEmailValid;
+    validateForm() {
+        let isFormValid = this.validateName() && this.validatePhone() && this.validateEmail();
+        if(isFormValid === true){
+            this.submitFormEvent();
+        }else{
+            alert("올바른 정보를 입력해주세요.");
+        }
     }
 
     submitFormEvent() {
