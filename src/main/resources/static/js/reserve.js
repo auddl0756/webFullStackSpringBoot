@@ -165,10 +165,67 @@ class BookingForm {
 
     setReservationDate(reservationDate) {
         $('#reservation_description').prepend(reservationDate + ", 총");
+
     }
 
     addEventListeners() {
         this.bookButton.on('click', this.submitFormEvent.bind(this));
+
+        this.form.on('change',this.validateForm.bind(this));
+    }
+
+    validateName(){
+        let regExprEnglishName = new RegExp(/^[A-Za-z]+$/);
+        let formInputName = $('#name').val();
+
+        let regExprKoreanName = new RegExp(/[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/);
+
+        return regExprEnglishName.test(formInputName) || regExprKoreanName.test(formInputName);
+    }
+
+    validatePhone() {
+        let regExprPhone = new RegExp(/\d{3}[-]\d{4}[-]\d{4}/);
+        let formInputPhone = $('#tel').val();
+
+        return regExprPhone.test(formInputPhone);
+    }
+
+    validateEmail(){
+        let regExprEmail = new RegExp(/^[a-zA-Z0-9]+@[a-zA-Z0-9]+[.][a-zA-Z0-9]+$/);
+        let formInputEmail = $('#email').val();
+
+        return regExprEmail.test(formInputEmail);
+    }
+
+    validateForm() {
+        let isPhoneValid = this.validatePhone();
+        if (isPhoneValid === false) {
+            $('#tel_warning').css('visibility', 'visible');
+
+            setTimeout(function(){
+                $('#tel_warning').css("visibility","hidden")
+            },1000);
+        }
+
+        let isNameValid = this.validateName();
+        if (isNameValid === false) {
+            $('#name_warning').css('visibility', 'visible');
+
+            setTimeout(function(){
+                $('#name_warning').css("visibility","hidden")
+            },1000);
+        }
+
+        let isEmailValid = this.validateEmail();
+        if (isEmailValid === false) {
+            $('#email_warning').css('visibility', 'visible');
+
+            setTimeout(function(){
+                $('#email_warning').css("visibility","hidden")
+            },1000);
+        }
+
+        return isNameValid && isPhoneValid && isEmailValid;
     }
 
     submitFormEvent() {

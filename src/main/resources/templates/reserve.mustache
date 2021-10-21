@@ -9,7 +9,6 @@
     <link href="/css/style.css" rel="stylesheet">
 </head>
 
-
 <!-- changed mustache delimiter to use Handlebars library-->
 {{=<% %>=}}
 
@@ -61,28 +60,35 @@
                         <h3 class="out_tit">예매자 정보</h3>
                         <div class="agreement_nessasary help_txt"><span class="spr_book ico_nessasary"></span> <span>필수입력</span>
                         </div>
-                        <form class="form_horizontal" action="/api/reservations" method = "POST" >
+                        <form class="form_horizontal" action="/api/reservations" method="POST">
                             <div class="inline_form"><label class="label" for="name"> <span
                                     class="spr_book ico_nessasary">필수</span> <span>예매자</span> </label>
                                 <div class="inline_control">
-                                    <input type="text" name="name" id="name" class="text" placeholder="예매자 이름을 입력해주세요" maxlength="34">
+                                    <input type="text" name="name" id="name" class="text"
+                                           placeholder="예매자 이름을 입력해주세요" maxlength="34"
+                                           required>
+                                    <div id="name_warning" class="warning_msg">영어 또는 한글 이름을 입력해주세요</div>
                                 </div>
                             </div>
                             <div class="inline_form"><label class="label" for="tel"> <span
                                     class="spr_book ico_nessasary">필수</span> <span>연락처</span> </label>
-                                <div class="inline_control tel_wrap">
+                                <div class="inline_control">
                                     <input type="tel" name="tel" id="tel" class="tel" value=""
-                                           placeholder="휴대폰 번호를 입력해주세요.">
-                                    <div class="warning_msg">형식이 틀렸거나 너무 짧아요</div>
+                                           placeholder="010-xxxx-xxxx 형식으로 입력해주세요."
+                                           required>
+                                    <div id="tel_warning" class="warning_msg">형식에 맞게 입력해 주세요.</div>
                                 </div>
+
                             </div>
                             <div class="inline_form"><label class="label" for="email"> <span
                                     class="spr_book ico_nessasary">필수</span> <span>이메일</span> </label>
                                 <div class="inline_control">
                                     <input type="email" name="email" id="email" class="email"
-                                                                   value="" placeholder="이메일 주소 입력"
-                                                                   maxlength="50">
+                                           value="" placeholder="이메일 주소 입력"
+                                           maxlength="50" required>
+                                    <div id="email_warning" class="warning_msg">올바른 형식의 이메일을 입력해주세요.</div>
                                 </div>
+
                             </div>
                             <div class="inline_form last"><label class="label" for="message">예매내용</label>
                                 <div class="inline_control">
