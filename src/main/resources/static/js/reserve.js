@@ -173,8 +173,6 @@ class BookingForm {
         this.setReservationDate(displayInfo.reservationDate);
         this.reservationButton = $('.bk_btn');
 
-        this.totalTicketCount = parseInt($('#totalCount').html());
-
         this.addEventListeners();
     }
 
@@ -264,7 +262,8 @@ class BookingForm {
     }
 
     validateTicket(){
-        return this.totalTicketCount !== 0;
+        const totalTicketCount = parseInt($('#totalCount').html());
+        return totalTicketCount !== 0;
     }
 
     submitFormEvent() {
