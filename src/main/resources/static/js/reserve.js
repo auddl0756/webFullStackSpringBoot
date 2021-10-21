@@ -81,12 +81,15 @@ class Ticket {
     constructor() {
         this.ticketSection = $('.ticket_body');
         this.ticketTemplate = $('#ticketTemplate').html();
-        this.ticketButton = $('.clearfix');
-
+        this.ticketButtons = $('.clearfix');
+        this.totalTicketCountArea = $('#totalCount');
+        this.totalTicketCount = 0;
     }
 
     addEventListeners() {
+        // UI가 그려지고 나서야 select 가능해서.. this.ticketButtons를 못 씀.
         $('.clearfix').on("click", this.ticketSelectEvent.bind(this));
+        $('.clearfix').on('click',this.setTotalTicketCount.bind(this));
     }
 
     drawTicketArea(priceInfos, productId) {
@@ -143,6 +146,16 @@ class Ticket {
             $(totalPriceSection).addClass('on_color');
         }
     }
+
+    setTotalTicketCount(){
+        this.totalTicketCount = 0;
+        let ticketButtons = $('.clearfix');
+        for(let ticketButton of ticketButtons){
+            this.totalTicketCount += parseInt($(ticketButton).find('.count_control_input').val());
+        }
+
+        $(this.totalTicketCountArea).html(this.totalTicketCount);
+    }
 }
 
 
@@ -159,6 +172,8 @@ class BookingForm {
 
         this.setReservationDate(displayInfo.reservationDate);
         this.reservationButton = $('.bk_btn');
+
+        this.totalTicketCount = parseInt($('#totalCount').html());
 
         this.addEventListeners();
     }
@@ -234,11 +249,22 @@ class BookingForm {
 
     validateForm() {
         let isFormValid = this.validateName() && this.validatePhone() && this.validateEmail();
-        if(isFormValid === true){
+        let isAnyTicketSelected = this.validateTicket();
+
+        let totalValid = isFormValid && isAnyTicketSelected;
+        if(totalValid === true){
             this.submitFormEvent();
         }else{
-            alert("올바른 정보를 입력해주세요.");
+            if(isFormValid===false){
+                alert("올바른 정보를 입력해주세요.");
+            }else{
+                alert("하나 이상의 티켓을 선택해주세요.");
+            }
         }
+    }
+
+    validateTicket(){
+        return this.totalTicketCount !== 0;
     }
 
     submitFormEvent() {
