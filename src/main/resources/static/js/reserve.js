@@ -173,6 +173,8 @@ class BookingForm {
         this.setReservationDate(displayInfo.reservationDate);
         this.reservationButton = $('.bk_btn');
 
+        this.agreeButtons = $('.btn_agreement');
+
         this.addEventListeners();
     }
 
@@ -187,6 +189,8 @@ class BookingForm {
         this.formName.on('change',this.errorName.bind(this));
         this.formTel.on('change',this.errorPhone.bind(this));
         this.formEmail.on('change',this.errorEmail.bind(this));
+
+        this.agreeButtons.on('click',this.agreeTextShowEvent.bind(this));
     }
 
     validateName(){
@@ -305,6 +309,21 @@ class BookingForm {
                 console.log("failed to make a reserve.");
             }
         });
+    }
+
+    agreeTextShowEvent(){
+        let agreeTag = event.target.closest('.agreement');
+        let arrowButton = $(agreeTag).find('.fn');
+
+        if(agreeTag.classList.contains('open')){    //close
+            $(agreeTag).removeClass('open');
+            $(arrowButton).addClass('fn-down2');
+            $(arrowButton).removeClass('fn-up2');
+        }else{  //open
+            $(agreeTag).addClass('open');
+            $(arrowButton).removeClass('fn-down2');
+            $(arrowButton).addClass('fn-up2');
+        }
     }
 }
 
