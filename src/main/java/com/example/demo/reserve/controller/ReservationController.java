@@ -19,17 +19,17 @@ public class ReservationController {
     private ReservationService reservationService;
 
     @PostMapping("/api/reservations")
-    public HttpStatus makeReservation(@Valid @RequestBody ReservationSaveDTO reservationParam, Errors errors){
+    public HttpStatus makeReservation(@Valid @RequestBody ReservationSaveDTO reservationParam, Errors errors) {
         System.out.println(reservationParam);
 
-        if(errors.hasErrors()){
-            List<ObjectError> errorList = errors.getAllErrors();
-            for(ObjectError error : errorList){
-                System.out.println(error.getDefaultMessage());
-            }
+        if (errors.hasErrors()) {
+//            List<ObjectError> errorList = errors.getAllErrors();
+//            for (ObjectError error : errorList) {
+//                System.out.println(error.getDefaultMessage());
+//            }
 
             return HttpStatus.BAD_REQUEST;
-        }else{
+        } else {
             reservationService.makeReservation(reservationParam);
             return HttpStatus.CREATED;  // 201
         }

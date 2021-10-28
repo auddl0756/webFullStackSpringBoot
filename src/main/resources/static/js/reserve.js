@@ -193,14 +193,14 @@ class BookingForm {
 
         this.agreeButtons.on('click', this.agreeTextShowEvent.bind(this));
 
-        this.allAgreeButton.on('click',this.changeStateOfAgreeButton.bind(this));
+        this.allAgreeButton.on('click', this.changeStateOfAgreeButton.bind(this));
     }
 
-    changeStateOfAgreeButton(){
+    changeStateOfAgreeButton() {
         let buttonValue = this.allAgreeButton.val();
-        if(buttonValue === 'on'){
+        if (buttonValue === 'on') {
             $(this.allAgreeButton).val('off');
-        }else{
+        } else {
             $(this.allAgreeButton).val('on');
         }
     }
@@ -328,9 +328,9 @@ class BookingForm {
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (httpStatus) {
-                if(httpStatus === 'CREATED'){
-                    location.href="/";
-                }else if(httpStatus === 'BAD_REQUEST'){
+                if (httpStatus === 'CREATED') {
+                    location.href = "/";
+                } else if (httpStatus === 'BAD_REQUEST') {
                     alert("bad request. failed to make a reservation");
                 }
             }
