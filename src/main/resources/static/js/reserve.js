@@ -81,12 +81,15 @@ class Ticket {
     constructor() {
         this.ticketSection = $('.ticket_body');
         this.ticketTemplate = $('#ticketTemplate').html();
-        this.ticketButton = $('.clearfix');
-
+        this.ticketButtons = $('.clearfix');
+        this.totalTicketCountArea = $('#totalCount');
+        this.totalTicketCount = 0;
     }
 
     addEventListeners() {
+        // UI가 그려지고 나서야 select 가능해서.. this.ticketButtons를 못 씀.
         $('.clearfix').on("click", this.ticketSelectEvent.bind(this));
+        $('.clearfix').on('click', this.setTotalTicketCount.bind(this));
     }
 
     drawTicketArea(priceInfos, productId) {
@@ -143,6 +146,16 @@ class Ticket {
             $(totalPriceSection).addClass('on_color');
         }
     }
+
+    setTotalTicketCount() {
+        this.totalTicketCount = 0;
+        let ticketButtons = $('.clearfix');
+        for (let ticketButton of ticketButtons) {
+            this.totalTicketCount += parseInt($(ticketButton).find('.count_control_input').val());
+        }
+
+        $(this.totalTicketCountArea).html(this.totalTicketCount);
+    }
 }
 
 
@@ -158,17 +171,130 @@ class BookingForm {
         this.reservationDate = displayInfo.reservationDate;
 
         this.setReservationDate(displayInfo.reservationDate);
-        this.bookButton = $('.bk_btn');
+        this.reservationButton = $('.bk_btn_wrap');
+        this.agreeButtons = $('.btn_agreement');
+        this.allAgreeButton = $('#chk3');
+        $('#chk3').val('off');
 
         this.addEventListeners();
     }
 
     setReservationDate(reservationDate) {
         $('#reservation_description').prepend(reservationDate + ", 총");
+
     }
 
     addEventListeners() {
-        this.bookButton.on('click', this.submitFormEvent.bind(this));
+        this.reservationButton.on('click', this.validateForm.bind(this));
+
+        this.formName.on('change', this.errorName.bind(this));
+        this.formTel.on('change', this.errorPhone.bind(this));
+        this.formEmail.on('change', this.errorEmail.bind(this));
+
+        this.agreeButtons.on('click', this.agreeTextShowEvent.bind(this));
+
+        this.allAgreeButton.on('click', this.changeStateOfAgreeButton.bind(this));
+    }
+
+    changeStateOfAgreeButton() {
+        let buttonValue = this.allAgreeButton.val();
+        if (buttonValue === 'on') {
+            $(this.allAgreeButton).val('off');
+            $(this.reservationButton).addClass('disable');
+        } else {
+            $(this.allAgreeButton).val('on');
+            $(this.reservationButton).removeClass('disable');
+        }
+    }
+
+    validateName() {
+        let regExprEnglishName = new RegExp(/^[A-Za-z]+$/);
+        let formInputName = $('#name').val();
+
+        let regExprKoreanName = new RegExp(/[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/);
+
+        return regExprEnglishName.test(formInputName) || regExprKoreanName.test(formInputName);
+    }
+
+    errorName() {
+        let isNameValid = this.validateName();
+        if (isNameValid === false) {
+            $('#name_warning').css('visibility', 'visible');
+
+            setTimeout(function () {
+                $('#name_warning').css("visibility", "hidden")
+            }, 1000);
+        }
+    }
+
+    validatePhone() {
+        let regExprPhone = new RegExp(/\d{3}[-]\d{4}[-]\d{4}/);
+        let formInputPhone = $('#tel').val();
+
+        return regExprPhone.test(formInputPhone);
+    }
+
+    errorPhone() {
+        let isPhoneValid = this.validatePhone();
+        if (isPhoneValid === false) {
+            $('#tel_warning').css('visibility', 'visible');
+
+            setTimeout(function () {
+                $('#tel_warning').css("visibility", "hidden")
+            }, 1000);
+        }
+    }
+
+    validateEmail() {
+        let regExprEmail = new RegExp(/^[a-zA-Z0-9]+@[a-zA-Z0-9]+[.][a-zA-Z0-9]+$/);
+        let formInputEmail = $('#email').val();
+
+        return regExprEmail.test(formInputEmail);
+    }
+
+    errorEmail() {
+        let isEmailValid = this.validateEmail();
+        if (isEmailValid === false) {
+            $('#email_warning').css('visibility', 'visible');
+
+            setTimeout(function () {
+                $('#email_warning').css("visibility", "hidden")
+            }, 1000);
+        }
+    }
+
+    validateTicket() {
+        const totalTicketCount = parseInt($('#totalCount').html());
+        return totalTicketCount !== 0;
+    }
+
+    validateAgreeButton() {
+        console.log($(this.allAgreeButton).val());
+
+        if ($(this.allAgreeButton).val() === 'on') {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    validateForm() {
+        let isFormValid = this.validateName() && this.validatePhone() && this.validateEmail();
+        let isAnyTicketSelected = this.validateTicket();
+        let isCheckedPolicy = this.validateAgreeButton();
+
+        let totalValid = isFormValid && isAnyTicketSelected && isCheckedPolicy;
+        if (totalValid === true) {
+            this.submitFormEvent();
+        } else {
+            if (isFormValid === false) {
+                alert("올바른 정보를 입력해주세요.");
+            } else if (isAnyTicketSelected === false) {
+                alert("하나 이상의 티켓을 선택해주세요.");
+            } else if (isCheckedPolicy === false) {
+                alert("약관 동의에 체크해 주세요.");
+            }
+        }
     }
 
     submitFormEvent() {
@@ -203,13 +329,29 @@ class BookingForm {
             data: JSON.stringify(bookingData),     //JSON.stringfy(객체) : 객체를 json 문자열로 변환.
             contentType: "application/json; charset=utf-8",
             dataType: "json",
-            success: function () {
-                location.href = "/";
-            },
-            error: function () {
-                console.log("failed to make a reserve.");
+            success: function (httpStatus) {
+                if (httpStatus === 'CREATED') {
+                    location.href = "/";
+                } else if (httpStatus === 'BAD_REQUEST') {
+                    alert("bad request. failed to make a reservation");
+                }
             }
         });
+    }
+
+    agreeTextShowEvent() {
+        let agreeTag = event.target.closest('.agreement');
+        let arrowButton = $(agreeTag).find('.fn');
+
+        if (agreeTag.classList.contains('open')) {    //close
+            $(agreeTag).removeClass('open');
+            $(arrowButton).addClass('fn-down2');
+            $(arrowButton).removeClass('fn-up2');
+        } else {  //open
+            $(agreeTag).addClass('open');
+            $(arrowButton).removeClass('fn-down2');
+            $(arrowButton).addClass('fn-up2');
+        }
     }
 }
 

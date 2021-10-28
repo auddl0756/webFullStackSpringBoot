@@ -9,7 +9,6 @@
     <link href="/css/style.css" rel="stylesheet">
 </head>
 
-
 <!-- changed mustache delimiter to use Handlebars library-->
 {{=<% %>=}}
 
@@ -36,13 +35,7 @@
             <div class="group_visual">
                 <div class="container_visual" style="width: 414px;">
                     <ul class="visual_img">
-                        <li class="item" style="width: 414px;"><img alt="" class="img_thumb"
-                                                                    src="https://ssl.phinf.net/naverbooking/20170217_264/1487312141947lTddT_JPEG/%B3%D7%C0%CC%B9%F6.jpg?type=ff1242_816">
-                            <span class="img_bg"></span>
-                            <div class="preview_txt">
-                                <h2 class="preview_txt_tit"></h2> <em class="preview_txt_dsc">₩12,000 ~ </em><em
-                                    class="preview_txt_dsc">2017.2.17.(금)~2017.4.18.(화), 잔여티켓 2769매</em></div>
-                        </li>
+                        <!-- titleImageTemplate로 대체 -->
                     </ul>
                 </div>
             </div>
@@ -61,25 +54,35 @@
                         <h3 class="out_tit">예매자 정보</h3>
                         <div class="agreement_nessasary help_txt"><span class="spr_book ico_nessasary"></span> <span>필수입력</span>
                         </div>
-                        <form class="form_horizontal" action="/api/reservations" method = "POST" >
+                        <form class="form_horizontal" action="/api/reservations" method="POST">
                             <div class="inline_form"><label class="label" for="name"> <span
                                     class="spr_book ico_nessasary">필수</span> <span>예매자</span> </label>
-                                <div class="inline_control"><input type="text" name="name" id="name" class="text"
-                                                                   placeholder="네이버" maxlength="17"></div>
+                                <div class="inline_control">
+                                    <input type="text" name="name" id="name" class="text"
+                                           placeholder="예매자 이름을 입력해주세요" minlength="5" maxlength="34"
+                                           required>
+                                    <div id="name_warning" class="warning_msg">영어 또는 한글 이름을 입력해주세요</div>
+                                </div>
                             </div>
                             <div class="inline_form"><label class="label" for="tel"> <span
                                     class="spr_book ico_nessasary">필수</span> <span>연락처</span> </label>
-                                <div class="inline_control tel_wrap">
+                                <div class="inline_control">
                                     <input type="tel" name="tel" id="tel" class="tel" value=""
-                                           placeholder="휴대폰 입력 시 예매내역 문자발송">
-                                    <div class="warning_msg">형식이 틀렸거나 너무 짧아요</div>
+                                           placeholder="010-xxxx-xxxx 형식으로 입력해주세요."
+                                           required>
+                                    <div id="tel_warning" class="warning_msg">형식에 맞게 입력해 주세요.</div>
                                 </div>
+
                             </div>
                             <div class="inline_form"><label class="label" for="email"> <span
                                     class="spr_book ico_nessasary">필수</span> <span>이메일</span> </label>
-                                <div class="inline_control"><input type="email" name="email" id="email" class="email"
-                                                                   value="" placeholder="crong@codesquad.kr"
-                                                                   maxlength="50"></div>
+                                <div class="inline_control">
+                                    <input type="email" name="email" id="email" class="email"
+                                           value="" placeholder="이메일 주소 입력"
+                                           maxlength="50" required>
+                                    <div id="email_warning" class="warning_msg">올바른 형식의 이메일을 입력해주세요.</div>
+                                </div>
+
                             </div>
                             <div class="inline_form last"><label class="label" for="message">예매내용</label>
                                 <div class="inline_control">
@@ -106,7 +109,7 @@
                     </div>
                     <!-- [D] 약관 보기 클릭 시 agreement에 open 클래스 추가 -->
                     <div class="agreement"><span class="chk_txt_span"> <i class="spr_book ico_arr_ipc2"></i> <span>개인정보 수집 및 이용 동의</span> </span>
-                        <a href="#" class="btn_agreement"> <span class="btn_text">보기</span> <i class="fn fn-down2"></i>
+                        <a class="btn_agreement"> <span class="btn_text">보기</span> <i class="fn fn-down2"></i>
                         </a>
                         <div class="useragreement_details">&lt;개인정보 수집 및 이용 동의&gt;<br><br> 1. 수집항목 : [필수] 이름, 연락처, [선택]
                             이메일주소<br><br> 2. 수집 및 이용목적 : 사업자회원과 예약이용자의 원활한 거래 진행, 고객상담, 불만처리 등 민원 처리, 분쟁조정 해결을 위한 기록보존,
@@ -117,7 +120,7 @@
                     </div>
                     <!-- [D] 약관 보기 클릭 시 agreement에 open 클래스 추가 -->
                     <div class="agreement"><span class="chk_txt_span"> <i class="spr_book ico_arr_ipc2"></i> <span>개인정보 제3자 제공 동의</span> </span>
-                        <a href="#" class="btn_agreement"> <span class="btn_text">보기</span> <i class="fn fn-down2"></i>
+                        <a class="btn_agreement"> <span class="btn_text">보기</span> <i class="fn fn-down2"></i>
                         </a>
                         <div class="useragreement_details custom_details_wrap">
                             <div class="custom_details">&lt;개인정보 제3자 제공 동의&gt;<br><br> 1. 개인정보를 제공받는 자 : 미디어앤아트<br><br>

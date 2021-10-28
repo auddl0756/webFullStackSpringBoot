@@ -30,3 +30,4 @@
 - [태그의 클래스 조작하기](https://webstudynote.tistory.com/95)
 - [jQuery html 요소 삽입](https://mjmjmj98.tistory.com/29)
 - [html hidden input type](http://tcpschool.com/html-input-types/hidden)
+- [client side validation](https://developer.mozilla.org/en-US/docs/Web/CSS/:invalid)

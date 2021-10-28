@@ -1,7 +1,7 @@
 package com.example.demo.reserve.service;
 
 import com.example.demo.entity.*;
-import com.example.demo.reserve.dto.booking.FormPrice;
+import com.example.demo.reserve.dto.reservation.FormPrice;
 import com.example.demo.reserve.dto.reservation.ReservationSaveDTO;
 import com.example.demo.reserve.repository.ProductPriceRepository;
 import com.example.demo.reserve.repository.ReservationInfoPriceRepository;
@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -19,6 +20,8 @@ public class ReservationService {
     private final ReservationRepository reservationRepository;
     private final ProductPriceRepository productPriceRepository;
     private final ReservationInfoPriceRepository infoPriceRepository;
+
+    private static DateTimeFormatter dateToStringFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     public void makeReservation(ReservationSaveDTO reservationParam) {
         DisplayInfo displayInfo = DisplayInfo.builder()
@@ -36,6 +39,8 @@ public class ReservationService {
                 .reservationTel(reservationParam.getTel())
                 .displayInfo(displayInfo)
                 .product(product)
+                .createDate(dateToStringFormatter.format(LocalDateTime.now()))
+                .modifyDate(dateToStringFormatter.format(LocalDateTime.now()))
                 .build();
 
         reservationRepository.save(reservationInfo);    //1. 연관관계의 pk를 가지고 있는 ReservationInfo 테이블에 먼저 저장
