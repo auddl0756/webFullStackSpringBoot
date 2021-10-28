@@ -327,11 +327,12 @@ class BookingForm {
             data: JSON.stringify(bookingData),     //JSON.stringfy(객체) : 객체를 json 문자열로 변환.
             contentType: "application/json; charset=utf-8",
             dataType: "json",
-            success: function () {
-                location.href = "/";
-            },
-            error: function () {
-                console.log("failed to make a reserve.");
+            success: function (httpStatus) {
+                if(httpStatus === 'CREATED'){
+                    location.href="/";
+                }else if(httpStatus === 'BAD_REQUEST'){
+                    alert("bad request. failed to make a reservation");
+                }
             }
         });
     }

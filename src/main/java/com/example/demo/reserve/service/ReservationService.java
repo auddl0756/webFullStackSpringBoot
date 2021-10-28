@@ -1,7 +1,7 @@
 package com.example.demo.reserve.service;
 
 import com.example.demo.entity.*;
-import com.example.demo.reserve.dto.booking.FormPrice;
+import com.example.demo.reserve.dto.reservation.FormPrice;
 import com.example.demo.reserve.dto.reservation.ReservationSaveDTO;
 import com.example.demo.reserve.repository.ProductPriceRepository;
 import com.example.demo.reserve.repository.ReservationInfoPriceRepository;
@@ -9,7 +9,6 @@ import com.example.demo.reserve.repository.ReservationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RequiredArgsConstructor
