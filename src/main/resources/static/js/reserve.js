@@ -171,7 +171,7 @@ class BookingForm {
         this.reservationDate = displayInfo.reservationDate;
 
         this.setReservationDate(displayInfo.reservationDate);
-        this.reservationButton = $('.bk_btn');
+        this.reservationButton = $('.bk_btn_wrap');
         this.agreeButtons = $('.btn_agreement');
         this.allAgreeButton = $('#chk3');
         $('#chk3').val('off');
@@ -200,8 +200,10 @@ class BookingForm {
         let buttonValue = this.allAgreeButton.val();
         if (buttonValue === 'on') {
             $(this.allAgreeButton).val('off');
+            $(this.reservationButton).addClass('disable');
         } else {
             $(this.allAgreeButton).val('on');
+            $(this.reservationButton).removeClass('disable');
         }
     }
 
