@@ -8,6 +8,7 @@ import com.example.demo.reserve.repository.ReservationInfoPriceRepository;
 import com.example.demo.reserve.repository.ReservationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -22,7 +23,9 @@ public class ReservationService {
     private final ReservationInfoPriceRepository infoPriceRepository;
 
     private static DateTimeFormatter dateToStringFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    private static final int TIME_LIMIT_SECONDS = 10;
 
+    @Transactional(timeout = TIME_LIMIT_SECONDS)
     public void makeReservation(ReservationSaveDTO reservationParam) {
         DisplayInfo displayInfo = DisplayInfo.builder()
                 .id(reservationParam.getDisplayInfoId())
